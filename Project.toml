@@ -1,0 +1,19 @@
+name = "MagneticFieldSHTCExpander"
+uuid = "ab416744-41d4-4ee3-9ac9-e1bb139954b4"
+authors = ["Abhro R."]
+version = "0.0.1-DEV"
+
+[deps]
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+LegendrePolynomials = "3db4a2ba-fc88-11e8-3e01-49c72059a882"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
