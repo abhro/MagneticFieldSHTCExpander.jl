@@ -1,3 +1,4 @@
+# Potential field
 The magnetic field is based on the Altschuler & Newkirk (1969) model, where a potential field is defined
 $$\Phi(r, \theta, \phi) = R_\odot \sum_{\ell=0}^\infty \sum_{m=0}^\ell P_\ell^m(\cos \theta) \left[g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m \phi)\right] \frac{\displaystyle\left(\frac{R_\odot}{r}\right)^{\ell+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \left(\frac{r}{R_{ss}}\right)^\ell}{\displaystyle \ell + 1 + \ell \left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}}$$
 and the magnetic field,
@@ -20,7 +21,7 @@ H_\ell^m(\phi)   &= g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m\phi)
 So, the potential function is instead
 $$\Phi(r, \theta, \phi) = R_\odot \sum_{\ell=0}^\infty \sum_{m=0}^\ell F_\ell^m(r) G_\ell^m(\theta) H_\ell^m(\phi)$$
 
-### Derivatives
+## Derivatives of potential field
 We need the first and second derivatives of each single-variable function for use in the Jacobian of the magnetic field.
 ```math
 \begin{align*}
@@ -149,3 +150,6 @@ The following are the quantities we want to calculate
 &= \frac{1}{B} (J\mathbf{B})^\mathsf{T} \mathbf{B}
 \end{align*}
 ```
+
+# References
+* Altschuler, M.D., Newkirk, G. Magnetic fields and the structure of the solar corona. _Sol Phys_ **9**, 131–149 (1969). https://doi.org/10.1007/BF00145734
