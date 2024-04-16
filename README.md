@@ -8,6 +8,6 @@ Create grids of the solar magnetic field based on provided Spherical Harmonic Tr
 See [Physical-theory.md](Physical-theory.md).
 
 ## To-do
-- [ ] Implement caching for `assoc_legendre_func_table`
+- [x] Implement caching for `assoc_legendre_func_table`
 - [ ] Provide a `collect`-like function for magnetic field at many `(r, θ, φ)`
 - [ ] Write tests to cover real-world SHTC files
