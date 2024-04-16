@@ -12,20 +12,21 @@ Note, here $P_\ell^m$ is the associated Legendre Polynomial under quasi-Schmidt 
 For notational convenience, we define the potential function as a product solution, where each function is defined as
 ```math
 \begin{align*}
-F_\ell^m(r)      &= \frac{\displaystyle \left(\frac{R_\odot}{r}\right)^{\ell+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \left(\frac{r}{R_{ss}}\right)^\ell}{\displaystyle \ell + 1 + \ell\left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}} \\
-G_\ell^m(\theta) &= P_\ell^m(\cos \theta) \\[1ex]
-H_\ell^m(\phi)   &= g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m\phi)
+F(r)      &= \frac{\displaystyle \left(\frac{R_\odot}{r}\right)^{\ell+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \left(\frac{r}{R_{ss}}\right)^\ell}{\displaystyle \ell + 1 + \ell\left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}} \\
+G(\theta) &= P_\ell^m(\cos \theta) \\[1ex]
+H(\phi)   &= g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m\phi)
 \end{align*}
 ```
+Note that _F_, _G_, and _H_ all implicitly depend on _ℓ_ and _m_.
 
 So, the potential function is instead
-$$\Phi(r, \theta, \phi) = R_\odot \sum_{\ell=0}^\infty \sum_{m=0}^\ell F_\ell^m(r) G_\ell^m(\theta) H_\ell^m(\phi)$$
+$$\Phi(r, \theta, \phi) = R_\odot \sum_{\ell=0}^\infty \sum_{m=0}^\ell F(r) G(\theta) H(\phi)$$
 
 ## Derivatives of potential field
 We need the first and second derivatives of each single-variable function for use in the Jacobian of the magnetic field.
 ```math
 \begin{align*}
-\frac{d}{dr} F_\ell^m(r)
+\frac{d}{dr} F(r)
 &= \frac{ \displaystyle
   -(\ell+1) \frac{R_\odot^{\ell+1}}{r^{\ell+2}} - \ell \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \frac{r^{\ell-1}}{R_{ss}^\ell}
 }{ \displaystyle
@@ -37,7 +38,7 @@ We need the first and second derivatives of each single-variable function for us
   \ell + 1 + \ell \left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}
 }
 \\[2ex]
-\frac{d^2}{dr^2} F_\ell^m(r)
+\frac{d^2}{dr^2} F(r)
 &= \frac{\displaystyle
   (\ell+1)(\ell+2) \frac{R_\odot^{\ell+1}}{r^{\ell+3}} - \ell(\ell-1) \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \frac{r^{\ell-2}}{R_{ss}^\ell}
 }{ \displaystyle
@@ -52,14 +53,14 @@ We need the first and second derivatives of each single-variable function for us
 ```
 ```math
 \begin{align*}
-\frac{d}{d\theta} G_\ell^m(\theta) &= - \sin(\theta) ~ \frac{dP_\ell^m(\cos\theta)}{d(\cos\theta)} \\[1ex]
-\frac{d^2}{d\theta^2} G_\ell^m(\theta) &= \sin^2(\theta) ~ \frac{d^2 P_\ell^m(\cos\theta)}{d(\cos\theta)^2} - \cos(\theta) ~ \frac{dP_\ell^m(\cos\theta)}{d(\cos\theta)}
+\frac{d}{d\theta} G(\theta) &= - \sin(\theta) ~ \frac{dP_\ell^m(\cos\theta)}{d(\cos\theta)} \\[1ex]
+\frac{d^2}{d\theta^2} G(\theta) &= \sin^2(\theta) ~ \frac{d^2 P_\ell^m(\cos\theta)}{d(\cos\theta)^2} - \cos(\theta) ~ \frac{dP_\ell^m(\cos\theta)}{d(\cos\theta)}
 \end{align*}
 ```
 ```math
 \begin{align*}
-\frac{d}{d\phi} H_\ell^m(\phi) &= m \left[-g_{\ell m} \sin(m\phi) + h_{\ell m} \cos(m\phi)\right] \\[1ex]
-\frac{d^2}{d\phi^2} H_\ell^m(\phi) &= -m^2 [g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m\phi)] = -m^2 H_\ell^m(\phi)
+\frac{d}{d\phi} H(\phi) &= m \left[-g_{\ell m} \sin(m\phi) + h_{\ell m} \cos(m\phi)\right] \\[1ex]
+\frac{d^2}{d\phi^2} H(\phi) &= -m^2 [g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m\phi)] = -m^2 H_\ell^m(\phi)
 \end{align*}
 ```
 
@@ -89,46 +90,46 @@ J\mathbf{B}(r, \theta, \phi)
 \end{align}
 ```
 
-In terms of the SHTC decomposition, the Jacobian is
+In terms of the SHTC expansion, the Jacobian is
 ```math
 J\mathbf{B}(r, \theta, \phi)
 = R_\odot \sum_{\ell=0}^\infty \sum_{m = 0}^\ell \begin{bmatrix}
-    \displaystyle -\frac{d^2F_\ell^m}{dr^2} G_\ell^m H_\ell^m &
-    \displaystyle -\frac{1}{r} \frac{dF_\ell^m}{dr} \frac{dG_\ell^m}{d\theta} H_\ell^m &
-    \displaystyle -\frac{1}{r\sin\theta} \frac{dF_\ell^m}{dr} G_\ell^m \frac{dH_\ell^m}{d\phi} &
+    \displaystyle -\frac{d^2F}{dr^2} G H &
+    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{d\theta} H &
+    \displaystyle -\frac{1}{r\sin\theta} \frac{dF}{dr} G \frac{dH}{d\phi} &
     \\[1ex]
-    \displaystyle -\frac{1}{r} \frac{dF_\ell^m}{dr} \frac{dG_\ell^m}{d\theta} H_\ell^m &
-    \displaystyle -\frac{1}{r^2} F_\ell^m \frac{d^2G_\ell^m}{d\theta^2} H_\ell^m &
-    \displaystyle -\frac{1}{r^2\sin\theta} F_\ell^m \frac{dG_\ell^m}{d\theta} \frac{dH_\ell^m}{d\phi} &
+    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{d\theta} H &
+    \displaystyle -\frac{1}{r^2} F \frac{d^2G}{d\theta^2} H &
+    \displaystyle -\frac{1}{r^2\sin\theta} F \frac{dG}{d\theta} \frac{dH}{d\phi} &
     \\[1ex]
-    \displaystyle -\frac{1}{r\sin\theta} \frac{dF_\ell^m}{dr} G_\ell^m \frac{dH_\ell^m}{d\phi} &
-    \displaystyle -\frac{1}{r^2\sin\theta} F_\ell^m \frac{dG_\ell^m}{d\theta} \frac{dH_\ell^m}{d\phi} &
-    \displaystyle -\frac{1}{r^2\sin^2\theta} F_\ell^m G_\ell^m \frac{d^2H_\ell^m}{d\phi^2}
+    \displaystyle -\frac{1}{r\sin\theta} \frac{dF}{dr} G \frac{dH}{d\phi} &
+    \displaystyle -\frac{1}{r^2\sin\theta} F \frac{dG}{d\theta} \frac{dH}{d\phi} &
+    \displaystyle -\frac{1}{r^2\sin^2\theta} F G \frac{d^2H}{d\phi^2}
 \end{bmatrix}
 ```
-Factoring out the parts that appear in $\Phi$, we have
+Factoring out the parts that appear in Φ, we have
 ```math
 J\mathbf{B}(r, \theta, \phi)
-= \sum_{\ell=0}^\infty \sum_{m = 0}^\ell - R_\odot F_\ell^m(r) G_\ell^m(\theta) H_\ell^m(\phi) \begin{bmatrix}
-    \displaystyle \frac{1}{F_\ell^m} \frac{d^2F_\ell^m}{dr^2} &
-    \displaystyle \frac{1}{r} \frac{1}{F_\ell^m G_\ell^m} \frac{dF_\ell^m}{dr} \frac{dG_\ell^m}{d\theta} &
-    \displaystyle \frac{1}{r\sin\theta} \frac{1}{F_\ell^m H_\ell^m} \frac{dF_\ell^m}{dr} \frac{dH_\ell^m}{d\phi}
+= \sum_{\ell=0}^\infty \sum_{m = 0}^\ell - R_\odot F(r) G(\theta) H(\phi) \begin{bmatrix}
+    \displaystyle \frac{1}{F} \frac{d^2F}{dr^2} &
+    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{d\theta} &
+    \displaystyle \frac{1}{r\sin\theta} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{d\phi}
     \\[1ex]
-    \displaystyle \frac{1}{r} \frac{1}{F_\ell^m G_\ell^m} \frac{dF_\ell^m}{dr} \frac{dG_\ell^m}{d\theta} &
-    \displaystyle \frac{1}{r^2} \frac{1}{G_\ell^m} \frac{d^2G_\ell^m}{d\theta^2} &
-    \displaystyle \frac{1}{r^2\sin\theta} \frac{1}{G_\ell^m H_\ell^m} \frac{dG_\ell^m}{d\theta} \frac{dH_\ell^m}{d\phi}
+    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{d\theta} &
+    \displaystyle \frac{1}{r^2} \frac{1}{G} \frac{d^2G}{d\theta^2} &
+    \displaystyle \frac{1}{r^2\sin\theta} \frac{1}{G H} \frac{dG}{d\theta} \frac{dH}{d\phi}
     \\[1ex]
-    \displaystyle \frac{1}{r\sin\theta} \frac{1}{F_\ell^m H_\ell^m} \frac{dF_\ell^m}{dr} \frac{dH_\ell^m}{d\phi} &
-    \displaystyle \frac{1}{r^2\sin\theta} \frac{1}{G_\ell^m H_\ell^m} \frac{dG_\ell^m}{d\theta} \frac{dH_\ell^m}{d\phi} &
-    \displaystyle \frac{1}{r^2\sin^2\theta} \frac{1}{H_\ell^m} \frac{d^2H_\ell^m}{d\phi^2}
+    \displaystyle \frac{1}{r\sin\theta} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{d\phi} &
+    \displaystyle \frac{1}{r^2\sin\theta} \frac{1}{G H} \frac{dG}{d\theta} \frac{dH}{d\phi} &
+    \displaystyle \frac{1}{r^2\sin^2\theta} \frac{1}{H} \frac{d^2H}{d\phi^2}
 \end{bmatrix}
 ```
-Note that since $\mathbf{B}$ is a gradient field, the Jacobian is symmetric (negative Hessian of $\Phi$).
+Note that since **B** is a gradient field, the Jacobian is symmetric (negative Hessian of Φ).
 
 ## Desired quantities
 The following are the quantities we want to calculate
-* $\displaystyle \Phi = \sum_{\ell=0}^\infty \sum_{m=0}^\ell R_\odot F_\ell^m(r) G_\ell^m(\theta) H_\ell^m(\phi) = \sum_{\ell,m} \Phi_\ell^m$
-* $\displaystyle \mathbf{B} = - \sum_{\ell,m} R_\odot F_\ell^m G_\ell^m H_\ell^m \left(\frac{\hat{\mathbf{r}}}{F_\ell^m} \frac{dF_\ell^m}{dr} + \frac{\hat{\boldsymbol{\theta}}}{r G_\ell^m} \frac{dG_\ell^m}{d\theta} + \frac{\hat{\boldsymbol{\phi}}}{r \sin(\theta) H_\ell^m} \frac{dH_\ell^m}{d\varphi}\right)$
+* $\displaystyle \Phi = \sum_{\ell=0}^\infty \sum_{m=0}^\ell R_\odot F(r) G(\theta) H(\phi) = \sum_{\ell,m} \Phi_\ell^m$, where $\Phi_\ell^m = R_\odot F(r) G(\theta) H(\phi)$
+* $\displaystyle \mathbf{B} = - \sum_{\ell,m} R_\odot F G H \left(\frac{\hat{\mathbf{r}}}{F} \frac{dF}{dr} + \frac{\hat{\boldsymbol{\theta}}}{r G} \frac{dG}{d\theta} + \frac{\hat{\boldsymbol{\phi}}}{r \sin(\theta) H} \frac{dH}{d\varphi}\right)$
 * $B = |\mathbf{B}|$
 * $\boldsymbol{\nabla} B$. Due to idiosyncrasies of Markdown/LaTeX/MathJax, the mathematical formulation for $\boldsymbol{\nabla} B$ is given outside this list as follows:
 

@@ -77,7 +77,7 @@ function magneticfield(
     jacobianB_ℓm = zeros(Float64, 3, 3)
 
     for ℓ in ℓ_axes
-        # set up F_ℓm(x). It actually doesn't depend on m, so set it up
+        # set up F(r). It actually doesn't depend on m, so set it up
         # outside the m loop.
         # first term of numerator
         r_inverse_scaled = (R_0 / r)^(ℓ+1)
@@ -86,38 +86,38 @@ function magneticfield(
         # denominator
         surface_to_surface_scale_denom = ℓ + 1 + ℓ * (R_0/R_SS)^(2ℓ+1)
 
-        F_ℓm = (r_inverse_scaled - r_positive_scaled) / surface_to_surface_scale_denom
-        dF_ℓm_dr = (
-                    -(ℓ+1)/r * r_inverse_scaled - ℓ/r * r_positive_scaled
-                   ) / surface_to_surface_scale_denom
-        d2F_ℓm_dr2 = ((
-                       (ℓ+1) * (ℓ+2) / r^2 * r_inverse_scaled
-                       -
-                       ℓ * (ℓ-1) / r^2 * r_positive_scaled
-                      )
-                      /
-                      surface_to_surface_scale_denom)
+        F = (r_inverse_scaled - r_positive_scaled) / surface_to_surface_scale_denom
+        dF_dr = (
+                 -(ℓ+1)/r * r_inverse_scaled - ℓ/r * r_positive_scaled
+                ) / surface_to_surface_scale_denom
+        d2F_dr2 = ((
+                    (ℓ+1) * (ℓ+2) / r^2 * r_inverse_scaled
+                    -
+                    ℓ * (ℓ-1) / r^2 * r_positive_scaled
+                   )
+                   /
+                   surface_to_surface_scale_denom)
 
         for m in 0:ℓ
-            G_ℓm = plm[ℓ,m]
-            dG_ℓm_dθ = -sinθ * dplm[ℓ,m]
-            d2G_ℓm_dθ2 = - sinθ^2 * d2plm[ℓ,m] - cosθ * dplm[ℓ,m]
+            G = plm[ℓ,m]
+            dG_dθ = -sinθ * dplm[ℓ,m]
+            dGm_dθ2 = - sinθ^2 * d2plm[ℓ,m] - cosθ * dplm[ℓ,m]
 
-            H_ℓm = g[ℓ,m] * cosmφ_vec[m] + h[ℓ,m]  * sinmφ_vec[m]
-            dH_ℓm_dφ = m * (-g[ℓ,m] * sinmφ_vec[m] + h[ℓ,m] * cosmφ_vec[m])
-            d2H_ℓm_dφ = -m^2 * H_ℓm
+            H = g[ℓ,m] * cosmφ_vec[m] + h[ℓ,m]  * sinmφ_vec[m]
+            dH_dφ = m * (-g[ℓ,m] * sinmφ_vec[m] + h[ℓ,m] * cosmφ_vec[m])
+            d2H_dφ = -m^2 * H
 
-            # Φ = ∑_(ℓ, m) R_0 F_ℓm G_ℓm H_ℓm
-            Φ_ℓm = R_0 * F_ℓm * G_ℓm * H_ℓm
+            # Φ = ∑_(ℓ, m) R_0 F G H
+            Φ_ℓm = R_0 * F * G * H
 
             Φ += Φ_ℓm
 
-            # B = -∑_(ℓ,m) R_0 F_ℓm G_ℓm H_ℓm (r̂/F_ℓm * dF_ℓm/dr
-            #                                  + θ̂/(r G_ℓm) * dG_ℓm/dθ
-            #                                  + φ̂/(r sinθ H_ℓm) * dH_ℓm/dr)
-            @. B += - Φ_ℓm .* [dF_ℓm_dr / F_ℓm,
-                               dG_ℓm_dθ / (r * G_ℓm),
-                               dH_ℓm_dφ / (r * sinθ * H_ℓm)]
+            # B = -∑_(ℓ,m) R_0 F G H (r̂/F * dF/dr
+            #                         + θ̂/(r G) * dG/dθ
+            #                         + φ̂/(r sinθ H) * dH/dr)
+            @. B += - Φ_ℓm .* [dF_dr / F,
+                               dG_dθ / (r * G),
+                               dH_dφ / (r * sinθ * H)]
 
             # I am not even going to attempt writing down the math form of the
             # Jacobian here. See Physical-theory.md.
@@ -126,16 +126,16 @@ function magneticfield(
             jacobianB_ℓm .= -Φ_ℓm # wasted on the upper triangular part, but whatever
 
             # first column
-            jacobianB_ℓm[1,1] *= d2F_ℓm_dr2 / F_ℓm
-            jacobianB_ℓm[2,1] *= dF_ℓm_dr * dG_ℓm_dθ / (r * F_ℓm * G_ℓm)
-            jacobianB_ℓm[3,1] *= dF_ℓm_dr * dH_ℓm_dφ / (r * sinθ * F_ℓm * H_ℓm)
+            jacobianB_ℓm[1,1] *= d2F_dr2 / F
+            jacobianB_ℓm[2,1] *= dF_dr * dG_dθ / (r * F * G)
+            jacobianB_ℓm[3,1] *= dF_dr * dH_dφ / (r * sinθ * F * H)
 
             # second column
-            jacobianB_ℓm[2,2] *= d2G_ℓm_dθ2 / (r^2 * G_ℓm)
-            jacobianB_ℓm[3,2] *= dG_ℓm_dθ * dH_ℓm_dφ / (r^2 * sinθ * G_ℓm * H_ℓm)
+            jacobianB_ℓm[2,2] *= dGm_dθ2 / (r^2 * G)
+            jacobianB_ℓm[3,2] *= dG_dθ * dH_dφ / (r^2 * sinθ * G * H)
 
             # third column
-            jacobianB_ℓm[3,3] *= d2H_ℓm_dφ / (r^2 * sinθ^2 * H_ℓm)
+            jacobianB_ℓm[3,3] *= d2H_dφ / (r^2 * sinθ^2 * H)
 
             jacobianB .+= jacobianB_ℓm
 
