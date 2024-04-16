@@ -74,6 +74,8 @@ function magneticfield(
     B = zeros(Float64, 3)
     jacobianB = zeros(Float64, 3, 3)
 
+    jacobianB_ℓm = zeros(Float64, 3, 3)
+
     for ℓ in ℓ_axes
         # set up F_ℓm(x). It actually doesn't depend on m, so set it up
         # outside the m loop.
@@ -120,20 +122,23 @@ function magneticfield(
             # I am not even going to attempt writing down the math form of the
             # Jacobian here. See Physical-theory.md.
             # we're only setting the lower triangular part then copying it after
-            # the loop.
-            jacobianB .+= -Φ_ℓm # wasted on the upper triangular part, but whatever
+            # the loop. (take advantage of symmetry)
+            jacobianB_ℓm .= -Φ_ℓm # wasted on the upper triangular part, but whatever
 
             # first column
-            jacobianB[1,1] *= d2F_ℓm_dr2 / F_ℓm
-            jacobianB[2,1] *= dF_ℓm_dr * dG_ℓm_dθ / (r * F_ℓm * G_ℓm)
-            jacobianB[3,1] *= dF_ℓm_dr * dH_ℓm_dφ / (r * sinθ * F_ℓm * H_ℓm)
+            jacobianB_ℓm[1,1] *= d2F_ℓm_dr2 / F_ℓm
+            jacobianB_ℓm[2,1] *= dF_ℓm_dr * dG_ℓm_dθ / (r * F_ℓm * G_ℓm)
+            jacobianB_ℓm[3,1] *= dF_ℓm_dr * dH_ℓm_dφ / (r * sinθ * F_ℓm * H_ℓm)
 
             # second column
-            jacobianB[2,2] *= d2G_ℓm_dθ2 / (r^2 * G_ℓm)
-            jacobianB[3,2] *= dG_ℓm_dθ * dH_ℓm_dφ / (r^2 * sinθ * G_ℓm * H_ℓm)
+            jacobianB_ℓm[2,2] *= d2G_ℓm_dθ2 / (r^2 * G_ℓm)
+            jacobianB_ℓm[3,2] *= dG_ℓm_dθ * dH_ℓm_dφ / (r^2 * sinθ * G_ℓm * H_ℓm)
 
             # third column
-            jacobianB[3,3] *= d2H_ℓm_dφ / (r^2 * sinθ^2 * H_ℓm)
+            jacobianB_ℓm[3,3] *= d2H_ℓm_dφ / (r^2 * sinθ^2 * H_ℓm)
+
+            jacobianB .+= jacobianB_ℓm
+
         end
     end
 
