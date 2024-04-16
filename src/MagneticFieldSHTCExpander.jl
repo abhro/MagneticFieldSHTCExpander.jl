@@ -7,6 +7,9 @@ using LinearAlgebra: LowerTriangular, norm
 using LegendrePolynomials: Plm
 using ForwardDiff: derivative as derivativefd
 
+using Memoization: @memoize
+using ThreadSafeDicts: ThreadSafeDict
+
 const R_0 = 1 # sun's radius in solar radius
 const R_SS = 2.5 # source surface in solar radius (PFSS)
 
@@ -152,7 +155,7 @@ end
 Plm′(x, l, m; kwargs...) = derivativefd(x -> Plm(x, l, m; kwargs...), x)
 Plm′′(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
 
-function assoc_legendre_func_table(x, lmax::Integer)
+@memoize ThreadSafeDict function assoc_legendre_func_table(x, lmax::Integer)
     # declare the three matrices
     # the assoc legendre polynomials are only defined as m ≤ l, so enforce that
     # in a lower triangular matrix.
