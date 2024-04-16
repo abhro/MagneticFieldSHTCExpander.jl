@@ -7,7 +7,9 @@ version = "0.0.1-DEV"
 ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
 LegendrePolynomials = "3db4a2ba-fc88-11e8-3e01-49c72059a882"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Memoization = "6fafb56a-5788-4b4e-91ca-c0cea6611c73"
 OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
+ThreadSafeDicts = "4239201d-c60e-5e0a-9702-85d713665ba7"
 
 [compat]
 julia = "1.6"
