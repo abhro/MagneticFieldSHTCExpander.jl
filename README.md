@@ -11,4 +11,4 @@ See [Physical-theory.md](Physical-theory.md).
 - [x] Implement caching for `assoc_legendre_func_table`
 - [ ] Provide a `collect`-like function for magnetic field at many `(r, θ, φ)`
 - [ ] Write tests to cover real-world SHTC files
-- [ ] Create documentation/Documenter.jl base
+- [x] Create documentation/Documenter.jl base
