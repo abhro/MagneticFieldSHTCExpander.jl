@@ -12,3 +12,4 @@ See [Physical-theory.md](Physical-theory.md).
 - [ ] Provide a `collect`-like function for magnetic field at many `(r, θ, φ)`
 - [ ] Write tests to cover real-world SHTC files
 - [x] Create documentation/Documenter.jl base
+- [ ] Add coverage indicator
