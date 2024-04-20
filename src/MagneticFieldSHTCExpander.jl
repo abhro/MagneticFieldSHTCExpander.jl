@@ -99,6 +99,7 @@ function magneticfield(
                    surface_to_surface_scale_denom)
 
         for m in 0:ℓ
+            # XXX can move this out of the loop?
             G = plm[ℓ,m]
             dG_dθ = -sinθ * dplm[ℓ,m]
             dGm_dθ2 = - sinθ^2 * d2plm[ℓ,m] - cosθ * dplm[ℓ,m]
