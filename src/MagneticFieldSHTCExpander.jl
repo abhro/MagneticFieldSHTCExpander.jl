@@ -98,6 +98,7 @@ function magneticfield(
                    /
                    surface_to_surface_scale_denom)
 
+        # XXX Assuming that m starts at 0. how do we rectify?
         for m in 0:ℓ
             # XXX can move this out of the loop?
             G = plm[ℓ,m]
@@ -156,6 +157,25 @@ function magneticfield(
             jacobianB = jacobianB,
             ∇normB = ∇normB,
            )
+end
+
+function collectmagneticfield(
+        rs::AbstractVector,
+        θs::AbstractVector,
+        φs::AbstractVector,
+        g::AbstractMatrix,
+        h::AbstractMatrix
+    )
+
+    results = Array{BField}(undef, length(rs), length(θs), length(φs))
+
+    for (iθ, θ) in enumerate(θs)
+        for (ir, r) in enumerate(rs), (iφ, φ) in enumerate(φs)
+            results[ir,iθ,iφ] = magneticfield(r, θ, φ, g, h)
+        end
+    end
+
+    return results
 end
 
 Plm′(x, l, m; kwargs...) = derivativefd(x -> Plm(x, l, m; kwargs...), x)
