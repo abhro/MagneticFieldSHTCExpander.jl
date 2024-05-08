@@ -1,26 +1,51 @@
 # Potential field
 The magnetic field is based on the Altschuler & Newkirk (1969) and Zhang, Zhao, and Rassoul (2019) model, where a potential field is defined
-$$\Phi(r, \theta, \phi) = R_\odot \sum_{\ell=0}^\infty \sum_{m=0}^\ell P_\ell^m(\cos \theta) \left[g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m \phi)\right] \frac{\displaystyle\left(\frac{R_\odot}{r}\right)^{\ell+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \left(\frac{r}{R_{ss}}\right)^\ell}{\displaystyle \ell + 1 + \ell \left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}}$$
+```math
+\Phi(r, θ, φ)
+= R_\odot
+  \sum_{ℓ=0}^\infty
+    \sum_{m=0}^ℓ
+      P_ℓ^m(\cos θ)
+      \left[g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(m φ)\right]
+      \frac{
+        \displaystyle\left(\frac{R_\odot}{r}\right)^{ℓ+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
+      }{
+        \displaystyle ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+      }
+```
 and the magnetic field,
-$$\mathbf{B}(r, \theta, \phi) = B_r(r, \theta, \phi) \hat{\mathbf{r}} + B_\theta(r, \theta, \phi) \hat{\boldsymbol{\theta}} + B_\phi(r, \theta, \phi) \hat{\boldsymbol{\phi}},$$
+```math
+\mathbf{B}(r, θ, φ) = B_r(r, θ, φ) \hat{\mathbf{r}} + B_θ(r, θ, φ) \hat{\boldsymbol{θ}} + B_φ(r, θ, φ) \hat{\boldsymbol{φ}},
+```
 is the negative gradient of the potential field:
-$$\mathbf{B}(r, \theta, \phi) = -\boldsymbol{\nabla}\Phi(r, \theta, \phi)
-  = -\frac{\partial \Phi}{\partial r} \hat{\mathbf{r}} - \frac{1}{r} \frac{\partial \Phi}{\partial \theta} \hat{\boldsymbol{\theta}} - \frac{1}{r \sin \theta} \frac{\partial \Phi}{\partial \phi} \hat{\boldsymbol{\phi}}.$$
+```math
+\mathbf{B}(r, θ, φ)
+= - \boldsymbol{∇}\Phi(r, θ, φ)
+= - \frac{\partial \Phi}{\partial r} \hat{\mathbf{r}}
+  - \frac{1}{r} \frac{\partial \Phi}{\partial θ} \hat{\boldsymbol{θ}}
+  - \frac{1}{r \sin θ} \frac{\partial \Phi}{\partial φ} \hat{\boldsymbol{φ}}.
+```
 
-Note, here $P_\ell^m$ is the associated Legendre Polynomial under quasi-Schmidt normalization.
+Note, here $P_ℓ^m$ is the associated Legendre Polynomial under quasi-Schmidt normalization.
 
 For notational convenience, we define the potential function as a product solution, where each function is defined as
 ```math
 \begin{align*}
-F(r)      &= \frac{\displaystyle \left(\frac{R_\odot}{r}\right)^{\ell+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \left(\frac{r}{R_{ss}}\right)^\ell}{\displaystyle \ell + 1 + \ell\left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}} \\
-G(\theta) &= P_\ell^m(\cos \theta) \\[1ex]
-H(\phi)   &= g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m\phi)
+F(r) &= \frac{
+    \displaystyle \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
+}{
+    \displaystyle ℓ + 1 + ℓ\left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+} \\
+G(θ) &= P_ℓ^m(\cos θ) \\[1ex]
+H(φ) &= g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(mφ)
 \end{align*}
 ```
 Note that _F_, _G_, and _H_ all implicitly depend on _ℓ_ and _m_.
 
 So, the potential function is instead
-$$\Phi(r, \theta, \phi) = R_\odot \sum_{\ell=0}^\infty \sum_{m=0}^\ell F(r) G(\theta) H(\phi)$$
+```math
+\Phi(r, θ, φ) = R_\odot \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ F(r) G(θ) H(φ)
+```
 
 ## Derivatives of potential field
 We need the first and second derivatives of each single-variable function for use in the Jacobian of the magnetic field.
@@ -28,124 +53,128 @@ We need the first and second derivatives of each single-variable function for us
 \begin{align*}
 \frac{d}{dr} F(r)
 &= \frac{ \displaystyle
-  -(\ell+1) \frac{R_\odot^{\ell+1}}{r^{\ell+2}} - \ell \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \frac{r^{\ell-1}}{R_{ss}^\ell}
+  -(ℓ+1) \frac{R_\odot^{ℓ+1}}{r^{ℓ+2}} - ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \frac{r^{ℓ-1}}{R_{ss}^ℓ}
 }{ \displaystyle
-  \ell + 1 + \ell \left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
 } \\[1ex]
 &= \frac{ \displaystyle
-  -\frac{\ell+1}{r} \left(\frac{R_\odot}{r}\right)^{\ell+1} - \frac{\ell}{r} \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \left(\frac{r}{R_{ss}}\right)^\ell
+  -\frac{ℓ+1}{r} \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \frac{ℓ}{r} \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
 }{ \displaystyle
-  \ell + 1 + \ell \left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
 }
 \\[2ex]
 \frac{d^2}{dr^2} F(r)
 &= \frac{\displaystyle
-  (\ell+1)(\ell+2) \frac{R_\odot^{\ell+1}}{r^{\ell+3}} - \ell(\ell-1) \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \frac{r^{\ell-2}}{R_{ss}^\ell}
+  (ℓ+1)(ℓ+2) \frac{R_\odot^{ℓ+1}}{r^{ℓ+3}} - ℓ(ℓ-1) \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \frac{r^{ℓ-2}}{R_{ss}^ℓ}
 }{ \displaystyle
-  \ell + 1 + \ell \left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
 } \\[1ex]
 &= \frac{\displaystyle
-  \frac{(\ell+1)(\ell+2)}{r^2} \left(\frac{R_\odot}{r}\right)^{\ell+1} - \frac{\ell(\ell-1)}{r^2} \left(\frac{R_\odot}{R_{ss}}\right)^{\ell+1} \left(\frac{r}{R_{ss}}\right)^\ell
+  \frac{(ℓ+1)(ℓ+2)}{r^2} \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \frac{ℓ(ℓ-1)}{r^2} \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
 }{ \displaystyle
-  \ell + 1 + \ell \left(\frac{R_\odot}{R_{ss}}\right)^{2\ell+1}
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
 }
 \end{align*}
 ```
 ```math
 \begin{align*}
-\frac{d}{d\theta} G(\theta) &= - \sin(\theta) ~ \frac{dP_\ell^m(\cos\theta)}{d(\cos\theta)} \\[1ex]
-\frac{d^2}{d\theta^2} G(\theta) &= \sin^2(\theta) ~ \frac{d^2 P_\ell^m(\cos\theta)}{d(\cos\theta)^2} - \cos(\theta) ~ \frac{dP_\ell^m(\cos\theta)}{d(\cos\theta)}
+\frac{d}{dθ} G(θ) &= - \sin(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)} \\[1ex]
+\frac{d^2}{dθ^2} G(θ) &= \sin^2(θ) ~ \frac{d^2 P_ℓ^m(\cosθ)}{d(\cosθ)^2} - \cos(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)}
 \end{align*}
 ```
 ```math
 \begin{align*}
-\frac{d}{d\phi} H(\phi) &= m \left[-g_{\ell m} \sin(m\phi) + h_{\ell m} \cos(m\phi)\right] \\[1ex]
-\frac{d^2}{d\phi^2} H(\phi) &= -m^2 [g_{\ell m} \cos(m\phi) + h_{\ell m} \sin(m\phi)] = -m^2 H_\ell^m(\phi)
+\frac{d}{dφ} H(φ) &= m \left[-g_{ℓ m} \sin(mφ) + h_{ℓ m} \cos(mφ)\right] \\[1ex]
+\frac{d^2}{dφ^2} H(φ) &= -m^2 [g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(mφ)] = -m^2 H_ℓ^m(φ)
 \end{align*}
 ```
 
 ### Jacobian of magnetic field
 The Jacobian for an $\mathbb{R}^3$ is a 3×3 matrix.
-For $\mathbf{B}$, it is
+For **B**, it is
 ```math
 \begin{align}
-J\mathbf{B}(r, \theta, \phi)
+J\mathbf{B}(r, θ, φ)
 &= \begin{bmatrix}
-    \displaystyle -\frac{\partial^2 \Phi}{\partial r^2}   &
-    \displaystyle -\frac{1}{r}\frac{\partial^2 \Phi}{\partial \theta \, \partial r} &
-    \displaystyle -\frac{1}{r \sin \theta} \frac{\partial^2 \Phi}{\partial \phi \, \partial r} \\
-    \displaystyle -\frac{1}{r} \frac{\partial^2 \Phi}{\partial r \, \partial \theta}  &
-    \displaystyle -\frac{1}{r^2} \frac{\partial^2 \Phi}{\partial \theta^2} &
-    \displaystyle -\frac{1}{r^2 \sin\theta} \frac{\partial^2 \Phi}{\partial\phi \, \partial\theta} \\
-    \displaystyle -\frac{1}{r \sin \theta} \frac{\partial^2 \Phi}{\partial r \, \partial \phi} &
-    \displaystyle -\frac{1}{r^2 \sin \theta} \frac{\partial^2 \Phi}{\partial\theta \, \partial\phi} &
-    \displaystyle -\frac{1}{r^2 \sin^2\theta} \frac{\partial^2 \Phi}{\partial \phi^2}
+    \displaystyle -\frac{\partial^2 \Phi}{\partial r^2}                        &
+    \displaystyle -\frac{1}{r}\frac{\partial^2 \Phi}{\partial θ \, \partial r} &
+    \displaystyle -\frac{1}{r \sin θ} \frac{\partial^2 \Phi}{\partial φ \, \partial r} \\
+    \displaystyle -\frac{1}{r} \frac{\partial^2 \Phi}{\partial r \, \partial θ} &
+    \displaystyle -\frac{1}{r^2} \frac{\partial^2 \Phi}{\partial θ^2}           &
+    \displaystyle -\frac{1}{r^2 \sinθ} \frac{\partial^2 \Phi}{\partialφ \, \partialθ} \\
+    \displaystyle -\frac{1}{r \sin θ} \frac{\partial^2 \Phi}{\partial r \, \partial φ} &
+    \displaystyle -\frac{1}{r^2 \sin θ} \frac{\partial^2 \Phi}{\partialθ \, \partialφ} &
+    \displaystyle -\frac{1}{r^2 \sin^2θ} \frac{\partial^2 \Phi}{\partial φ^2}
 \end{bmatrix}
 \\[2ex]
 &= \begin{bmatrix}
-    \longleftarrow & \boldsymbol{\nabla}^\mathsf{T} B_r & \longrightarrow \\
-    \longleftarrow & \boldsymbol{\nabla}^\mathsf{T} B_\theta & \longrightarrow \\
-    \longleftarrow & \boldsymbol{\nabla}^\mathsf{T} B_\phi & \longrightarrow
+    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_r & \longrightarrow \\
+    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_θ & \longrightarrow \\
+    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_φ & \longrightarrow
 \end{bmatrix}
 \end{align}
 ```
 
 In terms of the SHTC expansion, the Jacobian is
 ```math
-J\mathbf{B}(r, \theta, \phi)
-= R_\odot \sum_{\ell=0}^\infty \sum_{m = 0}^\ell \begin{bmatrix}
+J\mathbf{B}(r, θ, φ)
+= R_\odot \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ \begin{bmatrix}
     \displaystyle -\frac{d^2F}{dr^2} G H &
-    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{d\theta} H &
-    \displaystyle -\frac{1}{r\sin\theta} \frac{dF}{dr} G \frac{dH}{d\phi} &
+    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &
+    \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &
     \\[1ex]
-    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{d\theta} H &
-    \displaystyle -\frac{1}{r^2} F \frac{d^2G}{d\theta^2} H &
-    \displaystyle -\frac{1}{r^2\sin\theta} F \frac{dG}{d\theta} \frac{dH}{d\phi} &
+    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &
+    \displaystyle -\frac{1}{r^2} F \frac{d^2G}{dθ^2} H &
+    \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &
     \\[1ex]
-    \displaystyle -\frac{1}{r\sin\theta} \frac{dF}{dr} G \frac{dH}{d\phi} &
-    \displaystyle -\frac{1}{r^2\sin\theta} F \frac{dG}{d\theta} \frac{dH}{d\phi} &
-    \displaystyle -\frac{1}{r^2\sin^2\theta} F G \frac{d^2H}{d\phi^2}
+    \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &
+    \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &
+    \displaystyle -\frac{1}{r^2\sin^2θ} F G \frac{d^2H}{dφ^2}
 \end{bmatrix}
 ```
-Factoring out the parts that appear in Φ, we have
+Factoring out the parts that appear in \Phi, we have
 ```math
-J\mathbf{B}(r, \theta, \phi)
-= \sum_{\ell=0}^\infty \sum_{m = 0}^\ell - R_\odot F(r) G(\theta) H(\phi) \begin{bmatrix}
+J\mathbf{B}(r, θ, φ)
+= \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ - R_\odot F(r) G(θ) H(φ) \begin{bmatrix}
     \displaystyle \frac{1}{F} \frac{d^2F}{dr^2} &
-    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{d\theta} &
-    \displaystyle \frac{1}{r\sin\theta} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{d\phi}
+    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{dθ} &
+    \displaystyle \frac{1}{r\sinθ} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{dφ}
     \\[1ex]
-    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{d\theta} &
-    \displaystyle \frac{1}{r^2} \frac{1}{G} \frac{d^2G}{d\theta^2} &
-    \displaystyle \frac{1}{r^2\sin\theta} \frac{1}{G H} \frac{dG}{d\theta} \frac{dH}{d\phi}
+    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{dθ} &
+    \displaystyle \frac{1}{r^2} \frac{1}{G} \frac{d^2G}{dθ^2} &
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \frac{dG}{dθ} \frac{dH}{dφ}
     \\[1ex]
-    \displaystyle \frac{1}{r\sin\theta} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{d\phi} &
-    \displaystyle \frac{1}{r^2\sin\theta} \frac{1}{G H} \frac{dG}{d\theta} \frac{dH}{d\phi} &
-    \displaystyle \frac{1}{r^2\sin^2\theta} \frac{1}{H} \frac{d^2H}{d\phi^2}
+    \displaystyle \frac{1}{r\sinθ} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{dφ} &
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \frac{dG}{dθ} \frac{dH}{dφ} &
+    \displaystyle \frac{1}{r^2\sin^2θ} \frac{1}{H} \frac{d^2H}{dφ^2}
 \end{bmatrix}
 ```
-Note that since **B** is a gradient field, the Jacobian is symmetric (negative Hessian of Φ).
+Note that since **B** is a gradient field, the Jacobian is symmetric (negative Hessian of \Phi).
 
 ## Desired quantities
 The following are the quantities we want to calculate
-* $\displaystyle \Phi = \sum_{\ell=0}^\infty \sum_{m=0}^\ell R_\odot F(r) G(\theta) H(\phi) = \sum_{\ell,m} \Phi_\ell^m$, where $\Phi_\ell^m = R_\odot F(r) G(\theta) H(\phi)$
-* $\displaystyle \mathbf{B} = - \sum_{\ell,m} R_\odot F G H \left(\frac{\hat{\mathbf{r}}}{F} \frac{dF}{dr} + \frac{\hat{\boldsymbol{\theta}}}{r G} \frac{dG}{d\theta} + \frac{\hat{\boldsymbol{\phi}}}{r \sin(\theta) H} \frac{dH}{d\varphi}\right)$
-* $B = |\mathbf{B}|$
-* $\boldsymbol{\nabla} B$. Due to idiosyncrasies of Markdown/LaTeX/MathJax, the mathematical formulation for $\boldsymbol{\nabla} B$ is given outside this list as follows:
+
+- $\displaystyle \Phi = \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ R_\odot F(r) G(θ) H(φ) = \sum_{ℓ,m} \Phi_ℓ^m$, where $\Phi_ℓ^m = R_\odot F(r) G(θ) H(φ)$
+
+- $\displaystyle \mathbf{B} = - \sum_{ℓ,m} R_\odot F(r) G(θ) H(φ) \left(\frac{\hat{\mathbf{r}}}{F} \frac{dF}{dr} + \frac{\hat{\boldsymbol{θ}}}{r G} \frac{dG}{dθ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H} \frac{dH}{d\varphi}\right)$
+
+- _B_ = |**B**|
+
+- **∇**_B_. Due to idiosyncrasies of Markdown/LaTeX/MathJax, the mathematical formulation for **∇**_B_ is given outside this list as follows:
 
 ```math
 \begin{align*}
-\boldsymbol{\nabla} B
-&= \boldsymbol{\nabla} \sqrt{B_r^2 + B_\theta^2 + B_\phi^2} \\[1ex]
+\boldsymbol{∇} B
+&= \boldsymbol{∇} \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
 &= \frac{1}{B} \begin{bmatrix}
       \longleftarrow & \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial r} & \longrightarrow \\
-      \longleftarrow & \dfrac{1}{r} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial \theta} & \longrightarrow \\
-      \longleftarrow & \dfrac{1}{r \sin \theta} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial \phi} & \longrightarrow
+      \longleftarrow & \dfrac{1}{r} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial θ} & \longrightarrow \\
+      \longleftarrow & \dfrac{1}{r \sin θ} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial φ} & \longrightarrow
   \end{bmatrix} \mathbf{B}
 \\[1ex]
 &= \frac{1}{B} \begin{bmatrix}
       \uparrow & \uparrow & \uparrow \\
-      \boldsymbol{\nabla} B_r & \boldsymbol{\nabla} B_\theta & \boldsymbol{\nabla} B_\phi \\
+      \boldsymbol{∇} B_r & \boldsymbol{∇} B_θ & \boldsymbol{∇} B_φ \\
       \downarrow & \downarrow & \downarrow
   \end{bmatrix} \mathbf{B} \\[1ex]
 &= \frac{1}{B} (J\mathbf{B})^\mathsf{T} \mathbf{B}
@@ -155,3 +184,4 @@ The following are the quantities we want to calculate
 # References
 * Altschuler, M.D., Newkirk, G. Magnetic fields and the structure of the solar corona. _Sol Phys_ **9**, 131–149 (1969). https://doi.org/10.1007/BF00145734
 * Zhang, Ming, Lulu Zhao, and Hamid K. Rassoul. Stochastic Propagation of Solar Energetic Particles in Coronal and Interplanetary Magnetic Fields. Journal of Physics: Conference Series 1225, no. 1 (May 1, 2019): 012010. https://doi.org/10.1088/1742-6596/1225/1/012010.
+
