@@ -149,7 +149,7 @@ J\mathbf{B}(r, θ, φ)
     \displaystyle \frac{1}{r^2\sin^2θ} \frac{1}{H} \frac{d^2H}{dφ^2}
 \end{bmatrix}
 ```
-Note that since **B** is a gradient field, the Jacobian is symmetric (negative Hessian of \Phi).
+Note that since **B** is a gradient field, the Jacobian is symmetric (negative Hessian of Φ).
 
 ## Desired quantities
 The following are the quantities we want to calculate
