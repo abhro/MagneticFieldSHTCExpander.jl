@@ -9,4 +9,6 @@ Recreate magnetic field vectors out of spherical harmonic transform coefficients
 ```@docs
 magneticfield
 collectmagneticfield
+
+MagneticFieldSHTCExpander.BField
 ```
