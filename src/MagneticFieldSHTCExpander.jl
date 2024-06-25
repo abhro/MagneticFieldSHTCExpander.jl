@@ -1,6 +1,6 @@
 module MagneticFieldSHTCExpander
 
-export magneticfield
+export magneticfield, collectmagneticfield
 
 using OffsetArrays: OffsetArray, OffsetMatrix
 using LinearAlgebra: LowerTriangular, norm
