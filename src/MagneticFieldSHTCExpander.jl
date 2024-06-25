@@ -34,20 +34,20 @@ function magneticfield(
 
 
     if axes(g) != axes(h)
-        throw(ArgumentError("g and h must be the same size and index"))
+        throw(DimensionMismatch("g and h must be the same size and index"))
     end
 
     # ensure radius within solar surface and source surface
     if r < R_0 || r > R_SS
-        throw(DomainError("r must be within [R_0, R_ss] = [$R_0, $R_SS]"))
+        throw(DomainError(r, "r must be within [R_0, R_ss] = [$R_0, $R_SS]"))
     end
 
     if θ < 0 || θ > π
-        throw(DomainError("θ must be within [0, π]"))
+        throw(DomainError(θ, "θ must be within [0, π]"))
     end
 
     if φ < 0 || φ > 2π
-        throw(DomainError("φ must be within [0, 2π]"))
+        throw(DomainError(φ, "φ must be within [0, 2π]"))
     end
 
     # set up array of allowed ℓ values
