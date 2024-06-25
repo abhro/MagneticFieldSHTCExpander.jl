@@ -176,7 +176,7 @@ function magneticfield(
 
     ∇normB = jacobianB' * B / norm(B)
 
-    return (
+    return BField(
             Φ = Φ,
             B = B,
             jacobianB = jacobianB,
