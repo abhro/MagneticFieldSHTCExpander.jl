@@ -10,4 +10,5 @@ makedocs(
 
 deploydocs(
     repo="github.com/abhro/MagneticFieldSHTCExpander.jl.git",
+    push_preview=true,
 )
