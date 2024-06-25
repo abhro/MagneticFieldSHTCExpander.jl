@@ -175,6 +175,34 @@ function magneticfield(
            )
 end
 
+"""
+    collectmagneticfield(rs, θs, φs, g, h) -> Array{BField,3}
+
+Evaluate `magneticfield` for multiple position vectors. Returns a 3d array
+containing `BField` information, where each index corresponds to the index of
+the `rs`, `θs` and `φs` vectors.
+
+# Arguments
+- `rs`: vector of radial distances form the origin (spherical coordinates)
+- `θs`: vector of polar angles (ISO/physics spherical coordinates)
+- `φs`: vector of azimuthal angles (ISO/physics spherical coordinates)
+- `g`, `h`: arrays (matrices) containing the spherical harmonic transform
+            coefficients (SHTC). `g[ℓ,m]` should yield ``g_ℓ^m`` and
+            `h[ℓ,m]` should yield ``h_ℓ^m``
+
+# Examples
+
+```julia
+bgrid = collectmagneticfield(rs, θs, φs, g, h)
+r = rs[i]
+θ = θs[j]
+φ = φs[k]
+magneticfield(r, θ, φ, g, h) == bgrid[i,j,k]
+```
+
+# See also
+[`magneticfield`](@ref)
+"""
 function collectmagneticfield(
         rs::AbstractVector,
         θs::AbstractVector,
