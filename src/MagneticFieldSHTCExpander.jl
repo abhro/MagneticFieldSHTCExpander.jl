@@ -176,6 +176,17 @@ function magneticfield(
 end
 
 """
+    magneticfield(rvec, g, h)
+
+Call `magneticfield` using a `Vector` instead of specifying coordinates.
+
+`rvec` should be a 3-vector containing the ``(r, θ, φ)`` components.
+"""
+function magneticfield(rvec, g, h)
+    return magneticfield(rvec..., g, h)
+end
+
+"""
     collectmagneticfield(rs, θs, φs, g, h) -> Array{BField,3}
 
 Evaluate `magneticfield` for multiple position vectors. Returns a 3d array
