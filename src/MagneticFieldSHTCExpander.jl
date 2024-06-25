@@ -18,7 +18,7 @@ const QSNORM = Val(:schmidtquasi)
 # declare the return type as its own struct thing because it makes
 # it easier during development. once everything has been solidified,
 # this should be deleted and the returns made concrete.
-const BField = @NamedTuple begin
+Base.@kwdef struct BField
     Φ::Float64                     # magnetic potential at (r, θ, φ)
     B::Vector{Float64}             # mag field at (r, θ, φ)
     #normB::Float64                # norm of mag field at (r, θ, φ)
