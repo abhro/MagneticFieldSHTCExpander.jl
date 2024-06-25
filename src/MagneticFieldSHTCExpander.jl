@@ -26,6 +26,15 @@ Base.@kwdef struct BField
     ∇normB::Vector{Float64}        # gradient of norm of mag field
 end
 
+function Base.show(io::IO, bfield::BField)
+    println(io, "BField(")
+    println(io, "  Φ = ", bfield.Φ, ",")
+    println(io, "  B = ", bfield.B, ",")
+    println(io, "  jacobianB = ", bfield.jacobianB, ",")
+    println(io, "  ∇normB = ", bfield.∇normB, ",")
+    print(io, ")")
+end
+
 """
     magneticfield(r, θ, φ, g, h) -> BField
 
