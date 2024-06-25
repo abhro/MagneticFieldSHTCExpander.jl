@@ -26,6 +26,22 @@ const BField = @NamedTuple begin
     ∇normB::Vector{Float64}        # gradient of norm of mag field
 end
 
+"""
+    magneticfield(r, θ, φ, g, h) -> BField
+
+Return the magnetic field at ``(r, θ, φ)`` as described by ``g_ℓ^m`` and ``h_ℓ^m``.
+
+# Arguments
+- `r`: radial distance form the origin (spherical coordinates)
+- `θ`: polar angle (ISO/physics spherical coordinates)
+- `φ`: azimuthal angle (ISO/physics spherical coordinates)
+- `g`, `h`: arrays (matrices) containing the spherical harmonic transform
+            coefficients (SHTC). `g[ℓ,m]` should yield ``g_ℓ^m`` and
+            `h[ℓ,m]` should yield ``h_ℓ^m``
+
+# See also
+[`collectmagneticfield`](@ref)
+"""
 function magneticfield(
         r, θ, φ,            # position in spherical coordinates (r is in solar radius)
         g::AbstractMatrix,  # indices = (0:lmax, 0:lmax)
