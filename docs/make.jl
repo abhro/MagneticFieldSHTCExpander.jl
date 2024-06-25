@@ -1,8 +1,11 @@
 using Documenter
 using MagneticFieldSHTCExpander
+using Documenter.Remotes: GitHub
 
 makedocs(
-    sitename="MagneticFieldSHTCExpander",
+    modules = [MagneticFieldSHTCExpander],
+    sitename = "MagneticFieldSHTCExpander",
+    repo = GitHub("abhro/MagneticFieldSHTCExpander.jl"),
 )
 
 deploydocs(
