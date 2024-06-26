@@ -9,7 +9,7 @@ See the [physical theory](https://abhro.github.io/MagneticFieldSHTCExpander.jl/d
 
 ## To-do
 - [x] Implement caching for `assoc_legendre_func_table`
-- [ ] Provide a `collect`-like function for magnetic field at many `(r, θ, φ)`
+- [x] Provide a `collect`-like function for magnetic field at many `(r, θ, φ)`
 - [ ] Write tests to cover real-world SHTC files
 - [x] Create documentation/Documenter.jl base
 - [ ] Add coverage indicator
