@@ -5,7 +5,7 @@
 Create grids of the solar magnetic field based on provided Spherical Harmonic Transform Coefficients (SHTC)
 
 ## Physical motivation
-See [Physical-theory.md](Physical-theory.md).
+See the [physical theory](https://abhro.github.io/MagneticFieldSHTCExpander.jl/dev/physical-theory/) page on the documentation website.
 
 ## To-do
 - [x] Implement caching for `assoc_legendre_func_table`
