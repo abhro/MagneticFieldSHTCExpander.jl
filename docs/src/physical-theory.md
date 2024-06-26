@@ -93,7 +93,7 @@ We need the first and second derivatives of each single-variable function for us
 The Jacobian for an $\mathbb{R}^3$ is a 3×3 matrix.
 For **B**, it is
 ```math
-\begin{align}
+\begin{align*}
 J\mathbf{B}(r, θ, φ)
 &= \begin{bmatrix}
     \displaystyle -\frac{\partial^2 \Phi}{\partial r^2}                        &
@@ -112,7 +112,7 @@ J\mathbf{B}(r, θ, φ)
     \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_θ & \longrightarrow \\
     \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_φ & \longrightarrow
 \end{bmatrix}
-\end{align}
+\end{align*}
 ```
 
 In terms of the SHTC expansion, the Jacobian is
@@ -132,7 +132,7 @@ J\mathbf{B}(r, θ, φ)
     \displaystyle -\frac{1}{r^2\sin^2θ} F G \frac{d^2H}{dφ^2}
 \end{bmatrix}
 ```
-Factoring out the parts that appear in \Phi, we have
+Factoring out the parts that appear in Φ, we have
 ```math
 J\mathbf{B}(r, θ, φ)
 = \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ - R_\odot F(r) G(θ) H(φ) \begin{bmatrix}
@@ -154,33 +154,36 @@ Note that since **B** is a gradient field, the Jacobian is symmetric (negative H
 ## Desired quantities
 The following are the quantities we want to calculate
 
-- $\displaystyle \Phi = \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ R_\odot F(r) G(θ) H(φ) = \sum_{ℓ,m} \Phi_ℓ^m$, where $\Phi_ℓ^m = R_\odot F(r) G(θ) H(φ)$
+- ```math
+  Φ = \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ R_\odot F(r) G(θ) H(φ) = \sum_{ℓ,m} \Phi_ℓ^m,
+  ```
+
+  where $\Phi_ℓ^m = R_\odot F(r) G(θ) H(φ)$
 
 - $\displaystyle \mathbf{B} = - \sum_{ℓ,m} R_\odot F(r) G(θ) H(φ) \left(\frac{\hat{\mathbf{r}}}{F} \frac{dF}{dr} + \frac{\hat{\boldsymbol{θ}}}{r G} \frac{dG}{dθ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H} \frac{dH}{d\varphi}\right)$
 
 - _B_ = |**B**|
 
-- **∇**_B_. Due to idiosyncrasies of Markdown/LaTeX/MathJax, the mathematical formulation for **∇**_B_ is given outside this list as follows:
+- **∇**_B_
 
-```math
-\begin{align*}
-\boldsymbol{∇} B
-&= \boldsymbol{∇} \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
-&= \frac{1}{B} \begin{bmatrix}
-      \longleftarrow & \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial r} & \longrightarrow \\
-      \longleftarrow & \dfrac{1}{r} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial θ} & \longrightarrow \\
-      \longleftarrow & \dfrac{1}{r \sin θ} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial φ} & \longrightarrow
-  \end{bmatrix} \mathbf{B}
-\\[1ex]
-&= \frac{1}{B} \begin{bmatrix}
-      \uparrow & \uparrow & \uparrow \\
-      \boldsymbol{∇} B_r & \boldsymbol{∇} B_θ & \boldsymbol{∇} B_φ \\
-      \downarrow & \downarrow & \downarrow
-  \end{bmatrix} \mathbf{B} \\[1ex]
-&= \frac{1}{B} (J\mathbf{B})^\mathsf{T} \mathbf{B}
-\end{align*}
-```
-
+  ```math
+  \begin{align*}
+  \boldsymbol{∇} B
+  &= \boldsymbol{∇} \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
+  &= \frac{1}{B} \begin{bmatrix}
+        \longleftarrow & \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial r} & \longrightarrow \\
+        \longleftarrow & \dfrac{1}{r} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial θ} & \longrightarrow \\
+        \longleftarrow & \dfrac{1}{r \sin θ} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial φ} & \longrightarrow
+    \end{bmatrix} \mathbf{B}
+  \\[1ex]
+  &= \frac{1}{B} \begin{bmatrix}
+        \uparrow & \uparrow & \uparrow \\
+        \boldsymbol{∇} B_r & \boldsymbol{∇} B_θ & \boldsymbol{∇} B_φ \\
+        \downarrow & \downarrow & \downarrow
+    \end{bmatrix} \mathbf{B} \\[1ex]
+  &= \frac{1}{B} (J\mathbf{B})^\mathsf{T} \mathbf{B}
+  \end{align*}
+  ```
 
 ## References
 ```@bibliography
