@@ -10,6 +10,8 @@ using ForwardDiff: derivative as derivativefd
 using Memoization: @memoize
 using ThreadSafeDicts: ThreadSafeDict
 
+using DocStringExtensions
+
 const R_0 = 1 # sun's radius in solar radius
 const R_SS = 2.5 # source surface in solar radius (PFSS)
 
@@ -18,23 +20,29 @@ const QSNORM = Val(:schmidtquasi)
 # declare the return type as its own struct thing because it makes
 # it easier during development. once everything has been solidified,
 # this should be deleted and the returns made concrete.
-@doc raw"""
-    BField(...)
+"""
+$(TYPEDEF)
 
 Composite data type containing information about the local magnetic field vector.
 Note that position information needed for `magneticfield`, ``(r, θ, φ)`` is not stored.
 
 # Fields
-- `Φ`: magnetic potential at ``(r, θ, φ)``
-- `B`: magnetic field at ``(r, θ, φ)``
-- `jacobianB`: Jacobian matrix of magnetic field at ``(r, θ, φ)``
-- `∇normB`: gradient of norm of magnetic field (= ``∇\|\mathbf{B}\|``)
+$(FIELDS)
 """
 Base.@kwdef struct BField
+    "magnetic potential at ``(r, θ, φ)``"
     Φ::Float64
+
+    "magnetic field at ``(r, θ, φ)``"
     B::Vector{Float64}
-    #normB::Float64                # norm of mag field at (r, θ, φ)
+
+    #"norm of magnetic field at ``(r, θ, φ)``"
+    #normB::Float64
+
+    "Jacobian matrix of magnetic field at ``(r, θ, φ)``"
     jacobianB::Matrix{Float64}
+
+    "gradient of norm of magnetic field (``= ∇B = ∇ \\|\\mathbf{B}\\|``)"
     ∇normB::Vector{Float64}
 end
 
