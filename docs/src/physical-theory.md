@@ -1,5 +1,5 @@
 # Potential field
-The magnetic field is based on the Altschuler & Newkirk (1969) and Zhang, Zhao, and Rassoul (2019) model, where a potential field is defined
+The magnetic field is based on the [AN1969](@citet) and [ZZR2019](@citet) model, where a potential field is defined
 ```math
 \Phi(r, θ, φ)
 = R_\odot
@@ -181,7 +181,8 @@ The following are the quantities we want to calculate
 \end{align*}
 ```
 
-# References
-* Altschuler, M.D., Newkirk, G. Magnetic fields and the structure of the solar corona. _Sol Phys_ **9**, 131–149 (1969). https://doi.org/10.1007/BF00145734
-* Zhang, Ming, Lulu Zhao, and Hamid K. Rassoul. Stochastic Propagation of Solar Energetic Particles in Coronal and Interplanetary Magnetic Fields. Journal of Physics: Conference Series 1225, no. 1 (May 1, 2019): 012010. https://doi.org/10.1088/1742-6596/1225/1/012010.
 
+## References
+```@bibliography
+Pages = ["physical-theory.md"]
+```
