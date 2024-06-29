@@ -127,6 +127,7 @@ function magneticfield(
     for ℓ in ℓ_axes
         # set up F(r). It actually doesn't depend on m, so set it up
         # outside the m loop.
+        #
         # first term of numerator
         r_inverse_scaled = (R_0 / r)^(ℓ+1)
         # second term of numerator
@@ -146,7 +147,7 @@ function magneticfield(
                    /
                    surface_to_surface_scale_denom)
 
-        # XXX Assuming that m starts at 0. how do we rectify?
+        # FIXME Assuming that m starts at 0. how do we rectify?
         for m in 0:ℓ
             # XXX can move this out of the loop?
             G = plm[ℓ,m]
