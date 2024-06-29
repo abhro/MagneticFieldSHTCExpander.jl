@@ -10,6 +10,8 @@ using ForwardDiff: derivative as derivativefd
 using Memoization: @memoize
 using ThreadSafeDicts: ThreadSafeDict
 
+using StaticArrays
+
 using DocStringExtensions
 
 const R_0 = 1 # sun's radius in solar radius
@@ -34,16 +36,16 @@ Base.@kwdef struct BField
     Φ::Float64
 
     "magnetic field at ``(r, θ, φ)``"
-    B::Vector{Float64}
+    B::SVector{3,Float64}
 
     #"norm of magnetic field at ``(r, θ, φ)``"
     #normB::Float64
 
     "Jacobian matrix of magnetic field at ``(r, θ, φ)``"
-    jacobianB::Matrix{Float64}
+    jacobianB::SMatrix{3,3,Float64,9}
 
     "gradient of norm of magnetic field (``= ∇B = ∇ \\|\\mathbf{B}\\|``)"
-    ∇normB::Vector{Float64}
+    ∇normB::SVector{3,Float64}
 end
 
 function Base.show(io::IO, bfield::BField)
@@ -197,12 +199,7 @@ function magneticfield(
 
     ∇normB = jacobianB' * B / norm(B)
 
-    return BField(
-            Φ = Φ,
-            B = B,
-            jacobianB = jacobianB,
-            ∇normB = ∇normB,
-           )
+    return BField(; Φ, B, jacobianB, ∇normB)
 end
 
 """
