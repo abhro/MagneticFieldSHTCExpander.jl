@@ -13,4 +13,4 @@ See the [physical theory](https://abhro.github.io/MagneticFieldSHTCExpander.jl/d
 - [ ] Write tests to cover real-world SHTC files
 - [x] Create documentation/Documenter.jl base
 - [ ] Add coverage indicator
-- [ ] Add dispatching based on Legendre polynomial table
+- [x] Add dispatching based on Legendre polynomial table
