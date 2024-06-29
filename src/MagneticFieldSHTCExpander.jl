@@ -74,7 +74,8 @@ Return the magnetic field at ``(r, θ, φ)`` as described by ``g_ℓ^m`` and ``h
 function magneticfield(
         r, θ, φ,            # position in spherical coordinates (r is in solar radius)
         g::AbstractMatrix,  # indices = (0:lmax, 0:lmax)
-        h::AbstractMatrix   # indices = (0:lmax, 0:lmax)
+        h::AbstractMatrix;  # indices = (0:lmax, 0:lmax)
+        plm, dplm, dp2lm,
     )::BField
 
 
@@ -105,12 +106,12 @@ function magneticfield(
     cosθ = cos(θ)
     sinθ = sin(θ)
     if sinθ ≈ 0
-        @warn("θ is near 0 or π, causing sinθ to be almost 0. This may cause NaN issues")
+        @warn("θ is near 0 or π, causing sin(θ) to be almost 0. This may cause NaN issues")
     end
 
     # create vectors and matrices up front because array access is faster than
     # computation
-    plm, dplm, d2plm = assoc_legendre_func_table(cosθ, ℓ_axes[end])
+    #plm, dplm, d2plm = assoc_legendre_func_table(cosθ, ℓ_axes[end])
     sinmφ_vec = OffsetArray(sin.(ℓ_axes * φ), ℓ_axes)
     cosmφ_vec = OffsetArray(cos.(ℓ_axes * φ), ℓ_axes)
 
@@ -215,6 +216,11 @@ function magneticfield(rvec, g, h)
     return magneticfield(rvec..., g, h)
 end
 
+function magneticfield(r, θ, φ, g, h)
+    plm, dplm, d2plm = assoc_legendre_func_table(cos(θ), ℓ_axes[end])
+    return magneticfield(r, θ, φ, g, h; plm, dplm, d2plm)
+end
+
 """
     collectmagneticfield(rs, θs, φs, g, h) -> Array{BField,3}
 
@@ -248,14 +254,15 @@ function collectmagneticfield(
         θs::AbstractVector,
         φs::AbstractVector,
         g::AbstractMatrix,
-        h::AbstractMatrix
+        h::AbstractMatrix,
     )
 
     results = Array{BField}(undef, length(rs), length(θs), length(φs))
 
     for (iθ, θ) in enumerate(θs)
+        plm, dplm, d2plm = assoc_legendre_func_table(cos(θ), ℓ_axes[end])
         for (ir, r) in enumerate(rs), (iφ, φ) in enumerate(φs)
-            results[ir,iθ,iφ] = magneticfield(r, θ, φ, g, h)
+            results[ir,iθ,iφ] = magneticfield(r, θ, φ, g, h; plm, dplm, d2plm)
         end
     end
 
