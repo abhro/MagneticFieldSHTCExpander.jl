@@ -99,7 +99,8 @@ function magneticfield(
     end
 
     # set up array of allowed ℓ values
-    ℓ_axes = axes(g)[1]
+    ℓ_axes = axes(g, 1)
+    m_axes = axes(g, 2)
 
     # PHYSICAL THEORY (see Physical-theory.md)
     # Each ℓ,m term of the potential can be written as a product of three
@@ -148,8 +149,7 @@ function magneticfield(
                    /
                    surface_to_surface_scale_denom)
 
-        # FIXME Assuming that m starts at 0. how do we rectify?
-        for m in 0:ℓ
+        for m in m_axes
             # XXX can move this out of the loop?
             G = plm[ℓ,m]
             dG_dθ = -sinθ * dplm[ℓ,m]
