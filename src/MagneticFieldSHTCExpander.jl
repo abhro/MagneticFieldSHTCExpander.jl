@@ -75,8 +75,8 @@ Return the magnetic field at ``(r, θ, φ)`` as described by ``g_ℓ^m`` and ``h
 """
 function magneticfield(
         r, θ, φ,            # position in spherical coordinates (r is in solar radius)
-        g::AbstractMatrix,  # indices = (0:lmax, 0:lmax)
-        h::AbstractMatrix;  # indices = (0:lmax, 0:lmax)
+        g::AbstractMatrix,  # indices = (0:ℓmax, 0:ℓmax)
+        h::AbstractMatrix;  # indices = (0:ℓmax, 0:ℓmax)
         legendre_cache = assoc_legendre_func_table(cos(θ), axes(g)[1][end]),
     )::BField
 
@@ -85,18 +85,7 @@ function magneticfield(
         throw(DimensionMismatch("g and h must be the same size and index"))
     end
 
-    # ensure radius within solar surface and source surface
-    if r < R_0 || r > R_SS
-        throw(DomainError(r, "r must be within [R_0, R_ss] = [$R_0, $R_SS]"))
-    end
-
-    if θ < 0 || θ > π
-        throw(DomainError(θ, "θ must be within [0, π]"))
-    end
-
-    if φ < 0 || φ > 2π
-        throw(DomainError(φ, "φ must be within [0, 2π]"))
-    end
+    checkbounds(r, θ, φ)
 
     # set up array of allowed ℓ values
     ℓ_axes = axes(g, 1)
@@ -266,15 +255,15 @@ end
 Plm′(x, l, m; kwargs...) = derivativefd(x -> Plm(x, l, m; kwargs...), x)
 Plm′′(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
 
-@memoize ThreadSafeDict function assoc_legendre_func_table(x, lmax::Integer)
+@memoize ThreadSafeDict function assoc_legendre_func_table(x, ℓmax::Integer)
     # declare the three matrices
     # the assoc legendre polynomials are only defined as m ≤ l, so enforce that
     # in a lower triangular matrix.
-    plm_mat = OffsetMatrix(LowerTriangular(zeros(lmax+1, lmax+1)), 0:lmax, 0:lmax)
-    dplm_mat = OffsetMatrix(LowerTriangular(zeros(lmax+1, lmax+1)), 0:lmax, 0:lmax)
-    d2plm_mat = OffsetMatrix(LowerTriangular(zeros(lmax+1, lmax+1)), 0:lmax, 0:lmax)
+    plm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
+    dplm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
+    d2plm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
 
-    for ℓ = 0:lmax
+    for ℓ = 0:ℓmax
         for m = 0:ℓ
             plm_mat[ℓ,m] = Plm(x, ℓ, m, norm=QSNORM)
             dplm_mat[ℓ,m] = Plm′(x, ℓ, m, norm=QSNORM)
@@ -284,6 +273,21 @@ Plm′′(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
 
     # return all 3 matrices
     return (plm_mat, dplm_mat, d2plm_mat)
+end
+
+function checkbounds(r, θ, φ)
+    # ensure radius within solar surface and source surface
+    if r < R_0 || r > R_SS
+        throw(DomainError(r, "r must be within [R_0, R_ss] = [$R_0, $R_SS]"))
+    end
+
+    if θ < 0 || θ > π
+        throw(DomainError(θ, "θ must be within [0, π]"))
+    end
+
+    if φ < 0 || φ > 2π
+        throw(DomainError(φ, "φ must be within [0, 2π]"))
+    end
 end
 
 end

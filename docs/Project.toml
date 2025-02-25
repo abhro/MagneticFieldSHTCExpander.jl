@@ -1,6 +1,10 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DocumenterCitations = "daee34ce-89f3-4625-b898-19384cb65244"
+MagneticFieldSHTCExpander = "ab416744-41d4-4ee3-9ac9-e1bb139954b4"
 
 [compat]
 Documenter = "1"
+
+[sources.MagneticFieldSHTCExpander]
+path = ".."
