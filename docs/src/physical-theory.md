@@ -20,10 +20,10 @@ and the magnetic field,
 is the negative gradient of the potential field:
 ```math
 \mathbf{B}(r, θ, φ)
-= - \boldsymbol{∇}\Phi(r, θ, φ)
-= - \frac{∂ \Phi}{∂ r} \hat{\mathbf{r}}
-  - \frac{1}{r} \frac{∂ \Phi}{∂ θ} \hat{\boldsymbol{θ}}
-  - \frac{1}{r \sin θ} \frac{∂ \Phi}{∂ φ} \hat{\boldsymbol{φ}}.
+= - \grad\Phi(r, θ, φ)
+= - \pdv{\Phi}{r} \hat{\mathbf{r}}
+  - \frac{1}{r} \pdv{\Phi}{θ} \hat{\boldsymbol{θ}}
+  - \frac{1}{r \sin θ} \pdv{\Phi}{φ} \hat{\boldsymbol{φ}}.
 ```
 
 Note, here $P_ℓ^m$ is the associated Legendre Polynomial under quasi-Schmidt normalization.
@@ -51,7 +51,7 @@ So, the potential function is instead
 We need the first and second derivatives of each single-variable function for use in the Jacobian of the magnetic field.
 ```math
 \begin{align*}
-\frac{d}{dr} F(r)
+\dv{}{r} F(r)
 &= \frac{ \displaystyle
   -(ℓ+1) \frac{R_\odot^{ℓ+1}}{r^{ℓ+2}} - ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \frac{r^{ℓ-1}}{R_{ss}^ℓ}
 }{ \displaystyle
@@ -108,9 +108,9 @@ J\mathbf{B}(r, θ, φ)
 \end{bmatrix}
 \\[2ex]
 &= \begin{bmatrix}
-    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_r & \longrightarrow \\[0.5ex]
-    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_θ & \longrightarrow \\[0.5ex]
-    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_φ & \longrightarrow
+    \longleftarrow & \grad^\TT B_r & \longrightarrow \\[0.5ex]
+    \longleftarrow & \grad^\TT B_θ & \longrightarrow \\[0.5ex]
+    \longleftarrow & \grad^\TT B_φ & \longrightarrow
 \end{bmatrix}
 \end{align*}
 ```
@@ -120,15 +120,15 @@ In terms of the SHTC expansion, the Jacobian is
 J\mathbf{B}(r, θ, φ)
 = R_\odot \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ \begin{bmatrix}
     \displaystyle -\frac{d^2F}{dr^2} G H &
-    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &
-    \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &
+    \displaystyle -\frac{1}{r} \dv{F}{r} \dv{G}{θ} H &
+    \displaystyle -\frac{1}{r\sinθ} \dv{F}{r} G \dv{H}{φ} &
     \\[1.5ex]
-    \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &
+    \displaystyle -\frac{1}{r} \dv{F}{r} \dv{G}{θ} H &
     \displaystyle -\frac{1}{r^2} F \frac{d^2G}{dθ^2} H &
-    \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &
+    \displaystyle -\frac{1}{r^2\sinθ} F \dv{G}{θ} \dv{H}{φ} &
     \\[1.5ex]
-    \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &
-    \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &
+    \displaystyle -\frac{1}{r\sinθ} \dv{F}{r} G \dv{H}{φ} &
+    \displaystyle -\frac{1}{r^2\sinθ} F \dv{G}{θ} \dv{H}{φ} &
     \displaystyle -\frac{1}{r^2\sin^2θ} F G \frac{d^2H}{dφ^2}
 \end{bmatrix}
 ```
@@ -137,15 +137,15 @@ Factoring out the parts that appear in Φ, we have
 J\mathbf{B}(r, θ, φ)
 = \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ - R_\odot F(r) G(θ) H(φ) \begin{bmatrix}
     \displaystyle \frac{1}{F} \frac{d^2F}{dr^2} &
-    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{dθ} &
-    \displaystyle \frac{1}{r\sinθ} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{dφ}
+    \displaystyle \frac{1}{r} \frac{1}{F G} \dv{F}{r} \dv{G}{θ} &
+    \displaystyle \frac{1}{r\sinθ} \frac{1}{F H} \dv{F}{r} \dv{H}{φ}
     \\[1ex]
-    \displaystyle \frac{1}{r} \frac{1}{F G} \frac{dF}{dr} \frac{dG}{dθ} &
+    \displaystyle \frac{1}{r} \frac{1}{F G} \dv{F}{r} \dv{G}{θ} &
     \displaystyle \frac{1}{r^2} \frac{1}{G} \frac{d^2G}{dθ^2} &
-    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \frac{dG}{dθ} \frac{dH}{dφ}
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \dv{G}{θ} \dv{H}{φ}
     \\[1ex]
-    \displaystyle \frac{1}{r  \sinθ} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{dφ} &
-    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \frac{dG}{dθ} \frac{dH}{dφ} &
+    \displaystyle \frac{1}{r  \sinθ} \frac{1}{F H} \dv{F}{r} \dv{H}{φ} &
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \dv{G}{θ} \dv{H}{φ} &
     \displaystyle \frac{1}{r^2\sin^2θ} \frac{1}{H} \frac{d^2H}{dφ^2}
 \end{bmatrix}
 ```
@@ -155,11 +155,11 @@ Note that since **B** is a gradient field, the Jacobian is symmetric (negative H
 
 **∇**_B_ = **∇**|**B**| can be determined from the Jacobian of **B**. What follows is a proof using index notation:
 ```math
-\frac{∂B}{∂x_j}
-= \frac{∂}{∂x_j} (B_i B_i)^{1/2}
-= \frac{1}{2} (B_i B_i)^{-1/2} \left(2 B_i \frac{∂B_i}{∂x_j}\right)
-= \frac{B_i \frac{∂B_i}{∂x_j}}{\left(B_k B_k\right)^{1/2}}
-= \frac{B_i}{B} \frac{∂B_i}{∂x_j}
+\pdv{B}{x_j}
+= \pdv{}{x_j} \left(B_i B_i\right)^{1/2}
+= \frac{1}{2} \left(B_i B_i\right)^{-1/2} \left(2 B_i \pdv{B_i}{x_j}\right)
+= \frac{B_i \pdv{B_i}{x_j}}{\left(B_k B_k\right)^{1/2}}
+= \frac{B_i}{B} \pdv{B_i}{x_j}
 ```
 which implies ``∇B = \hat{\mathbf{b}} ⋅ J\mathbf{B}``
 
@@ -175,7 +175,10 @@ The following are the quantities we want to calculate
   where $\Phi_ℓ^m = R_\odot F(r) G(θ) H(φ)$
 
 - The magnetic field
-  $\displaystyle \mathbf{B} = - \sum_{ℓ,m} R_\odot F(r) G(θ) H(φ) \left(\frac{\hat{\mathbf{r}}}{F} \frac{dF}{dr} + \frac{\hat{\boldsymbol{θ}}}{r G} \frac{dG}{dθ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H} \frac{dH}{d\varphi}\right)$
+
+  ```math
+  \mathbf{B} = - \sum_{ℓ,m} R_\odot F(r) G(θ) H(φ) \left(\frac{\hat{\mathbf{r}}}{F} \dv{F}{r} + \frac{\hat{\boldsymbol{θ}}}{r G} \dv{G}{θ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H} \frac{dH}{d\varphi}\right)
+  ```
 
 - The magnetic field strength, _B_ = |**B**|
 
@@ -183,20 +186,20 @@ The following are the quantities we want to calculate
 
   ```math
   \begin{align*}
-  \boldsymbol{∇} B
-  &= \boldsymbol{∇} \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
+  \grad B
+  &= \grad \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
   &= \frac{1}{B} \begin{bmatrix}
-        \longleftarrow & \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ r} & \longrightarrow \\
-        \longleftarrow & \dfrac{1}{r} \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ θ} & \longrightarrow \\
-        \longleftarrow & \dfrac{1}{r \sin θ} \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ φ} & \longrightarrow
+        \longleftarrow & \dpdv{\mathbf{B}^\TT}{r}                     & \longrightarrow \\
+        \longleftarrow & \dfrac{1}{r} \dpdv{\mathbf{B}^\TT}{θ}        & \longrightarrow \\
+        \longleftarrow & \dfrac{1}{r \sin θ} \dpdv{\mathbf{B}^\TT}{φ} & \longrightarrow
     \end{bmatrix} \mathbf{B}
   \\[1ex]
   &= \frac{1}{B} \begin{bmatrix}
-        \uparrow & \uparrow & \uparrow \\
-        \boldsymbol{∇} B_r & \boldsymbol{∇} B_θ & \boldsymbol{∇} B_φ \\
+        \uparrow   & \uparrow   & \uparrow  \\
+        \grad B_r  & \grad B_θ  & \grad B_φ \\
         \downarrow & \downarrow & \downarrow
     \end{bmatrix} \mathbf{B} \\[1ex]
-  &= \frac{1}{B} (J\mathbf{B})^\mathsf{T} \mathbf{B}
+  &= \frac{1}{B} (J\mathbf{B})^\TT \mathbf{B}
   \end{align*}
   ```
 
