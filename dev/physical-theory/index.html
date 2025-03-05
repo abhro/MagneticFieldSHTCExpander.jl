@@ -11,9 +11,9 @@
         \displaystyle ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
       }\]</p><p>and the magnetic field,</p><p class="math-container">\[\mathbf{B}(r, θ, φ) = B_r(r, θ, φ) \hat{\mathbf{r}} + B_θ(r, θ, φ) \hat{\boldsymbol{θ}} + B_φ(r, θ, φ) \hat{\boldsymbol{φ}},\]</p><p>is the negative gradient of the potential field:</p><p class="math-container">\[\mathbf{B}(r, θ, φ)
 = - \boldsymbol{∇}\Phi(r, θ, φ)
-= - \frac{\partial \Phi}{\partial r} \hat{\mathbf{r}}
-  - \frac{1}{r} \frac{\partial \Phi}{\partial θ} \hat{\boldsymbol{θ}}
-  - \frac{1}{r \sin θ} \frac{\partial \Phi}{\partial φ} \hat{\boldsymbol{φ}}.\]</p><p>Note, here <span>$P_ℓ^m$</span> is the associated Legendre Polynomial under quasi-Schmidt normalization.</p><p>For notational convenience, we define the potential function as a product solution, where each function is defined as</p><p class="math-container">\[\begin{align*}
+= - \frac{∂ \Phi}{∂ r} \hat{\mathbf{r}}
+  - \frac{1}{r} \frac{∂ \Phi}{∂ θ} \hat{\boldsymbol{θ}}
+  - \frac{1}{r \sin θ} \frac{∂ \Phi}{∂ φ} \hat{\boldsymbol{φ}}.\]</p><p>Note, here <span>$P_ℓ^m$</span> is the associated Legendre Polynomial under quasi-Schmidt normalization.</p><p>For notational convenience, we define the potential function as a product solution, where each function is defined as</p><p class="math-container">\[\begin{align*}
 F(r) &amp;= \frac{
     \displaystyle \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
 }{
@@ -54,20 +54,20 @@ H(φ) &amp;= g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(mφ)
 \end{align*}\]</p><h3 id="Jacobian-of-magnetic-field"><a class="docs-heading-anchor" href="#Jacobian-of-magnetic-field">Jacobian of magnetic field</a><a id="Jacobian-of-magnetic-field-1"></a><a class="docs-heading-anchor-permalink" href="#Jacobian-of-magnetic-field" title="Permalink"></a></h3><p>The Jacobian for an <span>$\mathbb{R}^3$</span> is a 3×3 matrix. For <strong>B</strong>, it is</p><p class="math-container">\[\begin{align*}
 J\mathbf{B}(r, θ, φ)
 &amp;= \begin{bmatrix}
-    \displaystyle -\frac{\partial^2 \Phi}{\partial r^2}                        &amp;
-    \displaystyle -\frac{1}{r}\frac{\partial^2 \Phi}{\partial θ \, \partial r} &amp;
-    \displaystyle -\frac{1}{r \sin θ} \frac{\partial^2 \Phi}{\partial φ \, \partial r} \\
-    \displaystyle -\frac{1}{r} \frac{\partial^2 \Phi}{\partial r \, \partial θ} &amp;
-    \displaystyle -\frac{1}{r^2} \frac{\partial^2 \Phi}{\partial θ^2}           &amp;
-    \displaystyle -\frac{1}{r^2 \sinθ} \frac{\partial^2 \Phi}{\partialφ \, \partialθ} \\
-    \displaystyle -\frac{1}{r \sin θ} \frac{\partial^2 \Phi}{\partial r \, \partial φ} &amp;
-    \displaystyle -\frac{1}{r^2 \sin θ} \frac{\partial^2 \Phi}{\partialθ \, \partialφ} &amp;
-    \displaystyle -\frac{1}{r^2 \sin^2θ} \frac{\partial^2 \Phi}{\partial φ^2}
+    \displaystyle -\frac{∂^2 \Phi}{∂ r^2}                        &amp;
+    \displaystyle -\frac{1}{r}\frac{∂^2 \Phi}{∂ θ \, ∂ r} &amp;
+    \displaystyle -\frac{1}{r \sin θ} \frac{∂^2 \Phi}{∂ φ \, ∂ r} \\[0.5ex]
+    \displaystyle -\frac{1}{r} \frac{∂^2 \Phi}{∂ r \, ∂ θ} &amp;
+    \displaystyle -\frac{1}{r^2} \frac{∂^2 \Phi}{∂ θ^2}           &amp;
+    \displaystyle -\frac{1}{r^2 \sinθ} \frac{∂^2 \Phi}{∂φ \, ∂θ}  \\[0.5ex]
+    \displaystyle -\frac{1}{r \sin θ} \frac{∂^2 \Phi}{∂ r \, ∂ φ} &amp;
+    \displaystyle -\frac{1}{r^2 \sin θ} \frac{∂^2 \Phi}{∂θ \, ∂φ} &amp;
+    \displaystyle -\frac{1}{r^2 \sin^2θ} \frac{∂^2 \Phi}{∂ φ^2}
 \end{bmatrix}
 \\[2ex]
 &amp;= \begin{bmatrix}
-    \longleftarrow &amp; \boldsymbol{∇}^\mathsf{T} B_r &amp; \longrightarrow \\
-    \longleftarrow &amp; \boldsymbol{∇}^\mathsf{T} B_θ &amp; \longrightarrow \\
+    \longleftarrow &amp; \boldsymbol{∇}^\mathsf{T} B_r &amp; \longrightarrow \\[0.5ex]
+    \longleftarrow &amp; \boldsymbol{∇}^\mathsf{T} B_θ &amp; \longrightarrow \\[0.5ex]
     \longleftarrow &amp; \boldsymbol{∇}^\mathsf{T} B_φ &amp; \longrightarrow
 \end{bmatrix}
 \end{align*}\]</p><p>In terms of the SHTC expansion, the Jacobian is</p><p class="math-container">\[J\mathbf{B}(r, θ, φ)
@@ -75,11 +75,11 @@ J\mathbf{B}(r, θ, φ)
     \displaystyle -\frac{d^2F}{dr^2} G H &amp;
     \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &amp;
     \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &amp;
-    \\[1ex]
+    \\[1.5ex]
     \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &amp;
     \displaystyle -\frac{1}{r^2} F \frac{d^2G}{dθ^2} H &amp;
     \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &amp;
-    \\[1ex]
+    \\[1.5ex]
     \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &amp;
     \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &amp;
     \displaystyle -\frac{1}{r^2\sin^2θ} F G \frac{d^2H}{dφ^2}
@@ -100,9 +100,9 @@ J\mathbf{B}(r, θ, φ)
 \boldsymbol{∇} B
 &amp;= \boldsymbol{∇} \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
 &amp;= \frac{1}{B} \begin{bmatrix}
-      \longleftarrow &amp; \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial r} &amp; \longrightarrow \\
-      \longleftarrow &amp; \dfrac{1}{r} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial θ} &amp; \longrightarrow \\
-      \longleftarrow &amp; \dfrac{1}{r \sin θ} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial φ} &amp; \longrightarrow
+      \longleftarrow &amp; \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ r} &amp; \longrightarrow \\
+      \longleftarrow &amp; \dfrac{1}{r} \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ θ} &amp; \longrightarrow \\
+      \longleftarrow &amp; \dfrac{1}{r \sin θ} \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ φ} &amp; \longrightarrow
   \end{bmatrix} \mathbf{B}
 \\[1ex]
 &amp;= \frac{1}{B} \begin{bmatrix}
@@ -111,4 +111,4 @@ J\mathbf{B}(r, θ, φ)
       \downarrow &amp; \downarrow &amp; \downarrow
   \end{bmatrix} \mathbf{B} \\[1ex]
 &amp;= \frac{1}{B} (J\mathbf{B})^\mathsf{T} \mathbf{B}
-\end{align*}\]</p></li></ul><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><div class="citation canonical"><ul><li><div id="AN1969">Altschuler, M. D. and Newkirk, G. (1969). <a href="https://link.springer.com/10.1007/BF00145734"><em>Magnetic fields and the structure of the solar corona: I: Methods of calculating coronal fields</em></a>. <a href="https://doi.org/10.1007/BF00145734">Solar Physics <strong>9</strong>, 131–149</a>.</div></li><li><div id="ZZR2019">Zhang, M.; Zhao, L. and Rassoul, H. K. (2019). <a href="https://iopscience.iop.org/article/10.1088/1742-6596/1225/1/012010"><em>Stochastic Propagation of Solar Energetic Particles in Coronal and Interplanetary Magnetic Fields</em></a>. <a href="https://doi.org/10.1088/1742-6596/1225/1/012010">Journal of Physics: Conference Series <strong>1225</strong>, 012010</a>.</div></li></ul></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Introduction</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.8.1 on <span class="colophon-date" title="Wednesday 5 March 2025 01:59">Wednesday 5 March 2025</span>. Using Julia version 1.11.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+\end{align*}\]</p></li></ul><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><div class="citation canonical"><ul><li><div id="AN1969">Altschuler, M. D. and Newkirk, G. (1969). <a href="https://link.springer.com/10.1007/BF00145734"><em>Magnetic fields and the structure of the solar corona: I: Methods of calculating coronal fields</em></a>. <a href="https://doi.org/10.1007/BF00145734">Solar Physics <strong>9</strong>, 131–149</a>.</div></li><li><div id="ZZR2019">Zhang, M.; Zhao, L. and Rassoul, H. K. (2019). <a href="https://iopscience.iop.org/article/10.1088/1742-6596/1225/1/012010"><em>Stochastic Propagation of Solar Energetic Particles in Coronal and Interplanetary Magnetic Fields</em></a>. <a href="https://doi.org/10.1088/1742-6596/1225/1/012010">Journal of Physics: Conference Series <strong>1225</strong>, 012010</a>.</div></li></ul></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Introduction</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.8.1 on <span class="colophon-date" title="Wednesday 5 March 2025 02:01">Wednesday 5 March 2025</span>. Using Julia version 1.11.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
