@@ -144,27 +144,42 @@ J\mathbf{B}(r, θ, φ)
     \displaystyle \frac{1}{r^2} \frac{1}{G} \frac{d^2G}{dθ^2} &
     \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \frac{dG}{dθ} \frac{dH}{dφ}
     \\[1ex]
-    \displaystyle \frac{1}{r\sinθ} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{dφ} &
+    \displaystyle \frac{1}{r  \sinθ} \frac{1}{F H} \frac{dF}{dr} \frac{dH}{dφ} &
     \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \frac{dG}{dθ} \frac{dH}{dφ} &
     \displaystyle \frac{1}{r^2\sin^2θ} \frac{1}{H} \frac{d^2H}{dφ^2}
 \end{bmatrix}
 ```
 Note that since **B** is a gradient field, the Jacobian is symmetric (negative Hessian of Φ).
 
+### Gradient of the field strength
+
+**∇**_B_ = **∇**|**B**| can be determined from the Jacobian of **B**. What follows is a proof using index notation:
+```math
+\frac{∂B}{∂x_j}
+= \frac{∂}{∂x_j} (B_i B_i)^{1/2}
+= \frac{1}{2} (B_i B_i)^{-1/2} \left(2 B_i \frac{∂B_i}{∂x_j}\right)
+= \frac{B_i \frac{∂B_i}{∂x_j}}{\left(B_k B_k\right)^{1/2}}
+= \frac{B_i}{B} \frac{∂B_i}{∂x_j}
+```
+which implies ``∇B = \hat{\mathbf{b}} ⋅ J\mathbf{B}``
+
 ## Desired quantities
 The following are the quantities we want to calculate
 
-- ```math
+- The potential field
+
+  ```math
   Φ = \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ R_\odot F(r) G(θ) H(φ) = \sum_{ℓ,m} \Phi_ℓ^m,
   ```
 
   where $\Phi_ℓ^m = R_\odot F(r) G(θ) H(φ)$
 
-- $\displaystyle \mathbf{B} = - \sum_{ℓ,m} R_\odot F(r) G(θ) H(φ) \left(\frac{\hat{\mathbf{r}}}{F} \frac{dF}{dr} + \frac{\hat{\boldsymbol{θ}}}{r G} \frac{dG}{dθ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H} \frac{dH}{d\varphi}\right)$
+- The magnetic field
+  $\displaystyle \mathbf{B} = - \sum_{ℓ,m} R_\odot F(r) G(θ) H(φ) \left(\frac{\hat{\mathbf{r}}}{F} \frac{dF}{dr} + \frac{\hat{\boldsymbol{θ}}}{r G} \frac{dG}{dθ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H} \frac{dH}{d\varphi}\right)$
 
-- _B_ = |**B**|
+- The magnetic field strength, _B_ = |**B**|
 
-- **∇**_B_
+- The gradient of the magnetic field strength, **∇**_B_
 
   ```math
   \begin{align*}
