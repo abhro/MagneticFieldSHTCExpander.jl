@@ -57,7 +57,15 @@ $(document).ready(function() {
       "right": "\\]",
       "display": true
     }
-  ]
+  ],
+  "macros": {
+    "\\grad": "\\boldsymbol{∇}",
+    "\\dpdv": "\\dfrac{∂#1}{∂#2}",
+    "\\pdv": "\\frac{∂#1}{∂#2}",
+    "\\TT": "\\mathsf{T}",
+    "\\dv": "\\frac{d#1}{d#2}",
+    "\\ddv": "\\dfrac{d#1}{d#2}"
+  }
 }
 
   );
