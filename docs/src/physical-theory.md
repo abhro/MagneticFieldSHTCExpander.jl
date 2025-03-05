@@ -21,9 +21,9 @@ is the negative gradient of the potential field:
 ```math
 \mathbf{B}(r, θ, φ)
 = - \boldsymbol{∇}\Phi(r, θ, φ)
-= - \frac{\partial \Phi}{\partial r} \hat{\mathbf{r}}
-  - \frac{1}{r} \frac{\partial \Phi}{\partial θ} \hat{\boldsymbol{θ}}
-  - \frac{1}{r \sin θ} \frac{\partial \Phi}{\partial φ} \hat{\boldsymbol{φ}}.
+= - \frac{∂ \Phi}{∂ r} \hat{\mathbf{r}}
+  - \frac{1}{r} \frac{∂ \Phi}{∂ θ} \hat{\boldsymbol{θ}}
+  - \frac{1}{r \sin θ} \frac{∂ \Phi}{∂ φ} \hat{\boldsymbol{φ}}.
 ```
 
 Note, here $P_ℓ^m$ is the associated Legendre Polynomial under quasi-Schmidt normalization.
@@ -96,20 +96,20 @@ For **B**, it is
 \begin{align*}
 J\mathbf{B}(r, θ, φ)
 &= \begin{bmatrix}
-    \displaystyle -\frac{\partial^2 \Phi}{\partial r^2}                        &
-    \displaystyle -\frac{1}{r}\frac{\partial^2 \Phi}{\partial θ \, \partial r} &
-    \displaystyle -\frac{1}{r \sin θ} \frac{\partial^2 \Phi}{\partial φ \, \partial r} \\
-    \displaystyle -\frac{1}{r} \frac{\partial^2 \Phi}{\partial r \, \partial θ} &
-    \displaystyle -\frac{1}{r^2} \frac{\partial^2 \Phi}{\partial θ^2}           &
-    \displaystyle -\frac{1}{r^2 \sinθ} \frac{\partial^2 \Phi}{\partialφ \, \partialθ} \\
-    \displaystyle -\frac{1}{r \sin θ} \frac{\partial^2 \Phi}{\partial r \, \partial φ} &
-    \displaystyle -\frac{1}{r^2 \sin θ} \frac{\partial^2 \Phi}{\partialθ \, \partialφ} &
-    \displaystyle -\frac{1}{r^2 \sin^2θ} \frac{\partial^2 \Phi}{\partial φ^2}
+    \displaystyle -\frac{∂^2 \Phi}{∂ r^2}                        &
+    \displaystyle -\frac{1}{r}\frac{∂^2 \Phi}{∂ θ \, ∂ r} &
+    \displaystyle -\frac{1}{r \sin θ} \frac{∂^2 \Phi}{∂ φ \, ∂ r} \\[0.5ex]
+    \displaystyle -\frac{1}{r} \frac{∂^2 \Phi}{∂ r \, ∂ θ} &
+    \displaystyle -\frac{1}{r^2} \frac{∂^2 \Phi}{∂ θ^2}           &
+    \displaystyle -\frac{1}{r^2 \sinθ} \frac{∂^2 \Phi}{∂φ \, ∂θ}  \\[0.5ex]
+    \displaystyle -\frac{1}{r \sin θ} \frac{∂^2 \Phi}{∂ r \, ∂ φ} &
+    \displaystyle -\frac{1}{r^2 \sin θ} \frac{∂^2 \Phi}{∂θ \, ∂φ} &
+    \displaystyle -\frac{1}{r^2 \sin^2θ} \frac{∂^2 \Phi}{∂ φ^2}
 \end{bmatrix}
 \\[2ex]
 &= \begin{bmatrix}
-    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_r & \longrightarrow \\
-    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_θ & \longrightarrow \\
+    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_r & \longrightarrow \\[0.5ex]
+    \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_θ & \longrightarrow \\[0.5ex]
     \longleftarrow & \boldsymbol{∇}^\mathsf{T} B_φ & \longrightarrow
 \end{bmatrix}
 \end{align*}
@@ -122,11 +122,11 @@ J\mathbf{B}(r, θ, φ)
     \displaystyle -\frac{d^2F}{dr^2} G H &
     \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &
     \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &
-    \\[1ex]
+    \\[1.5ex]
     \displaystyle -\frac{1}{r} \frac{dF}{dr} \frac{dG}{dθ} H &
     \displaystyle -\frac{1}{r^2} F \frac{d^2G}{dθ^2} H &
     \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &
-    \\[1ex]
+    \\[1.5ex]
     \displaystyle -\frac{1}{r\sinθ} \frac{dF}{dr} G \frac{dH}{dφ} &
     \displaystyle -\frac{1}{r^2\sinθ} F \frac{dG}{dθ} \frac{dH}{dφ} &
     \displaystyle -\frac{1}{r^2\sin^2θ} F G \frac{d^2H}{dφ^2}
@@ -171,9 +171,9 @@ The following are the quantities we want to calculate
   \boldsymbol{∇} B
   &= \boldsymbol{∇} \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
   &= \frac{1}{B} \begin{bmatrix}
-        \longleftarrow & \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial r} & \longrightarrow \\
-        \longleftarrow & \dfrac{1}{r} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial θ} & \longrightarrow \\
-        \longleftarrow & \dfrac{1}{r \sin θ} \dfrac{\partial \mathbf{B}^\mathsf{T}}{\partial φ} & \longrightarrow
+        \longleftarrow & \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ r} & \longrightarrow \\
+        \longleftarrow & \dfrac{1}{r} \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ θ} & \longrightarrow \\
+        \longleftarrow & \dfrac{1}{r \sin θ} \dfrac{∂ \mathbf{B}^\mathsf{T}}{∂ φ} & \longrightarrow
     \end{bmatrix} \mathbf{B}
   \\[1ex]
   &= \frac{1}{B} \begin{bmatrix}

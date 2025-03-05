@@ -14,8 +14,8 @@ using StaticArrays
 
 using DocStringExtensions
 
-const R_0 = 1 # sun's radius in solar radius
-const R_SS = 2.5 # source surface in solar radius (PFSS)
+const R₀ = 1 # sun's radius in solar radius
+const Rₛₛ = 2.5 # source surface in solar radius (PFSS)
 
 const QSNORM = Val(:schmidtquasi)
 
@@ -103,8 +103,8 @@ function magneticfield(
 
     # create vectors and matrices up front because array access is faster than
     # computation
-    #plm, dplm, d2plm = assoc_legendre_func_table(cosθ, ℓ_axes[end])
-    plm, dplm, d2plm = legendre_cache
+    #plm, dplm, d²plm = assoc_legendre_func_table(cosθ, ℓ_axes[end])
+    plm, dplm, d²plm = legendre_cache
     sinmφ_vec = OffsetArray(sin.(ℓ_axes * φ), ℓ_axes)
     cosmφ_vec = OffsetArray(cos.(ℓ_axes * φ), ℓ_axes)
 
@@ -120,17 +120,17 @@ function magneticfield(
         # outside the m loop.
         #
         # first term of numerator
-        r_inverse_scaled = (R_0 / r)^(ℓ+1)
+        r_inverse_scaled = (R₀ / r)^(ℓ+1)
         # second term of numerator
-        r_positive_scaled = (R_0 / R_SS)^(ℓ+1) * (r / R_SS)^ℓ
+        r_positive_scaled = (R₀ / Rₛₛ)^(ℓ+1) * (r / Rₛₛ)^ℓ
         # denominator
-        surface_to_surface_scale_denom = ℓ + 1 + ℓ * (R_0/R_SS)^(2ℓ+1)
+        surface_to_surface_scale_denom = ℓ + 1 + ℓ * (R₀/Rₛₛ)^(2ℓ+1)
 
         F = (r_inverse_scaled - r_positive_scaled) / surface_to_surface_scale_denom
         dF_dr = (
                  -(ℓ+1)/r * r_inverse_scaled - ℓ/r * r_positive_scaled
                 ) / surface_to_surface_scale_denom
-        d2F_dr2 = ((
+        d²F_dr² = ((
                     (ℓ+1) * (ℓ+2) / r^2 * r_inverse_scaled
                     -
                     ℓ * (ℓ-1) / r^2 * r_positive_scaled
@@ -142,18 +142,18 @@ function magneticfield(
             # XXX can move this out of the loop?
             G = plm[ℓ,m]
             dG_dθ = -sinθ * dplm[ℓ,m]
-            dGm_dθ2 = - sinθ^2 * d2plm[ℓ,m] - cosθ * dplm[ℓ,m]
+            dGm_dθ2 = - sinθ^2 * d²plm[ℓ,m] - cosθ * dplm[ℓ,m]
 
             H = g[ℓ,m] * cosmφ_vec[m] + h[ℓ,m]  * sinmφ_vec[m]
             dH_dφ = m * (-g[ℓ,m] * sinmφ_vec[m] + h[ℓ,m] * cosmφ_vec[m])
-            d2H_dφ = -m^2 * H
+            d²H_dφ² = -m^2 * H
 
-            # Φ = ∑_(ℓ, m) R_0 F G H
-            Φ_ℓm = R_0 * F * G * H
+            # Φ = ∑_(ℓ, m) R₀ F G H
+            Φ_ℓm = R₀ * F * G * H
 
             Φ += Φ_ℓm
 
-            # B = -∑_(ℓ,m) R_0 F G H (r̂/F * dF/dr
+            # B = -∑_(ℓ,m) R₀ F G H (r̂/F * dF/dr
             #                         + θ̂/(r G) * dG/dθ
             #                         + φ̂/(r sinθ H) * dH/dr)
             @. B += - Φ_ℓm .* [dF_dr / F,
@@ -167,7 +167,7 @@ function magneticfield(
             jacobianB_ℓm .= -Φ_ℓm # wasted on the upper triangular part, but whatever
 
             # first column
-            jacobianB_ℓm[1,1] *= d2F_dr2 / F
+            jacobianB_ℓm[1,1] *= d²F_dr² / F
             jacobianB_ℓm[2,1] *= dF_dr * dG_dθ / (r * F * G)
             jacobianB_ℓm[3,1] *= dF_dr * dH_dφ / (r * sinθ * F * H)
 
@@ -176,7 +176,7 @@ function magneticfield(
             jacobianB_ℓm[3,2] *= dG_dθ * dH_dφ / (r^2 * sinθ * G * H)
 
             # third column
-            jacobianB_ℓm[3,3] *= d2H_dφ / (r^2 * sinθ^2 * H)
+            jacobianB_ℓm[3,3] *= d²H_dφ² / (r^2 * sinθ^2 * H)
 
             jacobianB .+= jacobianB_ℓm
 
@@ -261,24 +261,24 @@ Plm′′(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
     # in a lower triangular matrix.
     plm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
     dplm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
-    d2plm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
+    d²plm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
 
-    for ℓ = 0:ℓmax
-        for m = 0:ℓ
+    for ℓ in 0:ℓmax
+        for m in 0:ℓ
             plm_mat[ℓ,m] = Plm(x, ℓ, m, norm=QSNORM)
             dplm_mat[ℓ,m] = Plm′(x, ℓ, m, norm=QSNORM)
-            d2plm_mat[ℓ,m] = Plm′′(x, ℓ, m, norm=QSNORM)
+            d²plm_mat[ℓ,m] = Plm′′(x, ℓ, m, norm=QSNORM)
         end
     end
 
     # return all 3 matrices
-    return (plm_mat, dplm_mat, d2plm_mat)
+    return (plm_mat, dplm_mat, d²plm_mat)
 end
 
 function checkbounds(r, θ, φ)
     # ensure radius within solar surface and source surface
-    if r < R_0 || r > R_SS
-        throw(DomainError(r, "r must be within [R_0, R_ss] = [$R_0, $R_SS]"))
+    if r < R₀ || r > Rₛₛ
+        throw(DomainError(r, "r must be within [R₀, Rₛₛ] = [$R₀, $Rₛₛ]"))
     end
 
     if θ < 0 || θ > π

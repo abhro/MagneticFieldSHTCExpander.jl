@@ -7,9 +7,8 @@ include("pages.jl")
 
 bib = CitationBibliography(
     joinpath(@__DIR__, "src", "refs.bib");
-    style=:authoryear,
+    style = :authoryear,
 )
-
 
 makedocs(
     modules = [MagneticFieldSHTCExpander],
