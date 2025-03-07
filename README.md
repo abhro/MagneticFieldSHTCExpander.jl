@@ -13,5 +13,5 @@ See the [physical theory](https://abhro.github.io/MagneticFieldSHTCExpander.jl/d
 - [x] Provide a `collect`-like function for magnetic field at many `(r, θ, φ)`
 - [ ] Write tests to cover real-world SHTC files
 - [x] Create documentation/Documenter.jl base
-- [ ] Add coverage indicator
+- [x] Add coverage indicator
 - [x] Add dispatching based on Legendre polynomial table
