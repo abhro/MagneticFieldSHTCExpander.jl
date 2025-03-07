@@ -1,6 +1,7 @@
 # MagneticFieldSHTCExpander
 
 [![Build Status](https://github.com/abhro/MagneticFieldSHTCExpander.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/abhro/MagneticFieldSHTCExpander.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/abhro/MagneticFieldSHTCExpander.jl/graph/badge.svg?token=AYZRY7JV8E)](https://codecov.io/gh/abhro/MagneticFieldSHTCExpander.jl)
 
 Create grids of the solar magnetic field based on provided Spherical Harmonic Transform Coefficients (SHTC)
 
