@@ -119,39 +119,36 @@ function magneticfield(
         # denominator
         surface_to_surface_scale_denom = ℓ + 1 + ℓ * (R₀/Rₛₛ)^(2ℓ+1)
 
+        # using prime notation for derivatives
         F = (r_inverse_scaled - r_positive_scaled) / surface_to_surface_scale_denom
-        dF_dr = (
-                 -(ℓ+1)/r * r_inverse_scaled - ℓ/r * r_positive_scaled
-                ) / surface_to_surface_scale_denom
-        d²F_dr² = ((
-                    (ℓ+1) * (ℓ+2) / r^2 * r_inverse_scaled
-                    -
-                    ℓ * (ℓ-1) / r^2 * r_positive_scaled
-                   )
-                   /
-                   surface_to_surface_scale_denom)
+        F′ = (
+              -(ℓ+1)/r * r_inverse_scaled - ℓ/r * r_positive_scaled
+             ) / surface_to_surface_scale_denom
+        F″ = ((
+                (ℓ+1) * (ℓ+2) / r^2 * r_inverse_scaled
+                -
+                ℓ * (ℓ-1) / r^2 * r_positive_scaled
+               )
+               /
+               surface_to_surface_scale_denom)
 
         for m in m_axes
             # XXX can move this out of the loop?
-            G = plm[ℓ,m]
-            dG_dθ = -sinθ * dplm[ℓ,m]
-            dGm_dθ2 = - sinθ^2 * d²plm[ℓ,m] - cosθ * dplm[ℓ,m]
+            G   = plm[ℓ,m]
+            G′  = -sinθ * dplm[ℓ,m]
+            G″ = - sinθ^2 * d²plm[ℓ,m] - cosθ * dplm[ℓ,m]
 
-            H = g[ℓ,m] * cosmφ_vec[m] + h[ℓ,m]  * sinmφ_vec[m]
-            dH_dφ = m * (-g[ℓ,m] * sinmφ_vec[m] + h[ℓ,m] * cosmφ_vec[m])
-            d²H_dφ² = -m^2 * H
+            H   = g[ℓ,m] * cosmφ_vec[m] + h[ℓ,m]  * sinmφ_vec[m]
+            H′  = m * (-g[ℓ,m] * sinmφ_vec[m] + h[ℓ,m] * cosmφ_vec[m])
+            H″ = -m^2 * H
 
             # Φ = ∑_(ℓ, m) R₀ F G H
             Φ_ℓm = R₀ * F * G * H
 
             Φ += Φ_ℓm
 
-            # B = -∑_(ℓ,m) R₀ F G H (r̂/F * dF/dr
-            #                         + θ̂/(r G) * dG/dθ
-            #                         + φ̂/(r sinθ H) * dH/dr)
-            @. B += - Φ_ℓm .* [dF_dr / F,
-                               dG_dθ / (r * G),
-                               dH_dφ / (r * sinθ * H)]
+            # B = -∑_(ℓ,m) R₀ F G H (r̂/F * F′ + θ̂/(r G) * G′ + φ̂/(r sinθ H) * H′)
+            @. B += - Φ_ℓm .* [F′/F, G′/(r * G), H′/(r * sinθ * H)]
 
             # I am not even going to attempt writing down the math form of the
             # Jacobian here. See Physical-theory.md.
@@ -160,16 +157,16 @@ function magneticfield(
             jacobianB_ℓm .= -Φ_ℓm # wasted on the upper triangular part, but whatever
 
             # first column
-            jacobianB_ℓm[1,1] *= d²F_dr² / F
-            jacobianB_ℓm[2,1] *= dF_dr * dG_dθ / (r * F * G)
-            jacobianB_ℓm[3,1] *= dF_dr * dH_dφ / (r * sinθ * F * H)
+            jacobianB_ℓm[1,1] *= F″ / F
+            jacobianB_ℓm[2,1] *= F′ * G′ / (r * F * G)
+            jacobianB_ℓm[3,1] *= F′ * H′ / (r * sinθ * F * H)
 
             # second column
-            jacobianB_ℓm[2,2] *= dGm_dθ2 / (r^2 * G)
-            jacobianB_ℓm[3,2] *= dG_dθ * dH_dφ / (r^2 * sinθ * G * H)
+            jacobianB_ℓm[2,2] *= G″ / (r^2 * G)
+            jacobianB_ℓm[3,2] *= G′ * H′ / (r^2 * sinθ * G * H)
 
             # third column
-            jacobianB_ℓm[3,3] *= d²H_dφ² / (r^2 * sinθ^2 * H)
+            jacobianB_ℓm[3,3] *= H″ / (r^2 * sinθ^2 * H)
 
             jacobianB .+= jacobianB_ℓm
 
@@ -244,21 +241,21 @@ function collectmagneticfield(
 end
 
 Plm′(x, l, m; kwargs...) = derivativefd(x -> Plm(x, l, m; kwargs...), x)
-Plm′′(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
+Plm″(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
 
 @memoize ThreadSafeDict function assoc_legendre_func_table(x, ℓmax::Integer)
     # declare the three matrices
     # the assoc legendre polynomials are only defined as m ≤ l, so enforce that
     # in a lower triangular matrix.
-    plm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
-    dplm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
+    plm_mat   = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
+    dplm_mat  = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
     d²plm_mat = OffsetMatrix(LowerTriangular(zeros(ℓmax+1, ℓmax+1)), 0:ℓmax, 0:ℓmax)
 
     for ℓ in 0:ℓmax
         for m in 0:ℓ
-            plm_mat[ℓ,m] = Plm(x, ℓ, m, norm=QSNORM)
-            dplm_mat[ℓ,m] = Plm′(x, ℓ, m, norm=QSNORM)
-            d²plm_mat[ℓ,m] = Plm′′(x, ℓ, m, norm=QSNORM)
+            plm_mat[ℓ,m]   = Plm( x, ℓ, m, norm=QSNORM)
+            dplm_mat[ℓ,m]  = Plm′(x, ℓ, m, norm=QSNORM)
+            d²plm_mat[ℓ,m] = Plm″(x, ℓ, m, norm=QSNORM)
         end
     end
 
