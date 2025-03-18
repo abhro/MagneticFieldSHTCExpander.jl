@@ -10,9 +10,9 @@ using ForwardDiff: derivative as derivativefd
 using Memoization: @memoize
 using ThreadSafeDicts: ThreadSafeDict
 
-using StaticArrays
+using StaticArrays: SVector, SMatrix
 
-using DocStringExtensions
+using DocStringExtensions: TYPEDEF, FIELDS
 
 const R₀ = 1 # sun's radius in solar radius
 const Rₛₛ = 2.5 # source surface in solar radius (PFSS)
@@ -221,11 +221,8 @@ magneticfield(r, θ, φ, g, h) == bgrid[i,j,k]
 [`magneticfield`](@ref)
 """
 function collectmagneticfield(
-        rs::AbstractVector,
-        θs::AbstractVector,
-        φs::AbstractVector,
-        g::AbstractMatrix,
-        h::AbstractMatrix,
+        rs::AbstractVector, θs::AbstractVector, φs::AbstractVector,
+        g::AbstractMatrix, h::AbstractMatrix,
     )
 
     results = Array{BField}(undef, length(rs), length(θs), length(φs))
