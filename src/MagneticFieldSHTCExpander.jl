@@ -38,14 +38,8 @@ Base.@kwdef struct BField
     "magnetic field at ``(r, θ, φ)``"
     B::SVector{3,Float64}
 
-    #"norm of magnetic field at ``(r, θ, φ)``"
-    #normB::Float64
-
     "Jacobian matrix of magnetic field at ``(r, θ, φ)``"
     jacobianB::SMatrix{3,3,Float64,9}
-
-    "gradient of norm of magnetic field (``= ∇B = ∇ \\|\\mathbf{B}\\|``)"
-    ∇normB::SVector{3,Float64}
 end
 
 function Base.show(io::IO, bfield::BField)
@@ -53,7 +47,6 @@ function Base.show(io::IO, bfield::BField)
     println(io, "  Φ = ", bfield.Φ, ",")
     println(io, "  B = ", bfield.B, ",")
     println(io, "  jacobianB = ", bfield.jacobianB, ",")
-    println(io, "  ∇normB = ", bfield.∇normB, ",")
     print(io, ")")
 end
 
@@ -188,9 +181,7 @@ function magneticfield(
     jacobianB[1,3] = jacobianB[3,1]
     jacobianB[2,3] = jacobianB[3,2]
 
-    ∇normB = jacobianB' * B / norm(B)
-
-    return BField(; Φ, B, jacobianB, ∇normB)
+    return BField(; Φ, B, jacobianB)
 end
 
 """
