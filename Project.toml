@@ -15,7 +15,7 @@ ThreadSafeDicts = "4239201d-c60e-5e0a-9702-85d713665ba7"
 
 [compat]
 DocStringExtensions = "0.9"
-ForwardDiff = "0.10"
+ForwardDiff = "0.10, 1"
 LegendrePolynomials = "0.4"
 LinearAlgebra = "1"
 Memoization = "0.2"
