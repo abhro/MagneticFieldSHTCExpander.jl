@@ -31,27 +31,27 @@ Note, here $P_ℓ^m$ is the associated Legendre Polynomial under quasi-Schmidt n
 For notational convenience, we define the potential function as a product solution, where each function is defined as
 ```math
 \begin{align*}
-F(r) &= \frac{
+F_ℓ(r) &= \frac{
     \displaystyle \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
 }{
     \displaystyle ℓ + 1 + ℓ\left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
 } \\
-G(θ) &= P_ℓ^m(\cos θ) \\[1ex]
-H(φ) &= g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(mφ)
+G_{ℓm}(θ) &= P_ℓ^m(\cos θ) \\[1ex]
+H_{ℓm}(φ) &= g_{ℓm} \cos(mφ) + h_{ℓ m} \sin(mφ)
 \end{align*}
 ```
-Note that _F_, _G_, and _H_ all implicitly depend on _ℓ_ and _m_.
+Note that _F_, _G_, and _H_ all implicitly depend on _ℓ_ and _m_ (only _ℓ_ in _F_'s case).
 
 So, the potential function is instead
 ```math
-\Phi(r, θ, φ) = R_\odot \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ F(r) G(θ) H(φ)
+\Phi(r, θ, φ) = R_\odot \sum_{ℓ=0}^\infty F_ℓ(r) \sum_{m=0}^ℓ G_{ℓm}(θ) H_{ℓm}(φ)
 ```
 
 ## Derivatives of potential field
 We need the first and second derivatives of each single-variable function for use in the Jacobian of the magnetic field.
 ```math
 \begin{align*}
-\dv{}{r} F(r)
+\dv{}{r} F_ℓ(r)
 &= \frac{ \displaystyle
   -(ℓ+1) \frac{R_\odot^{ℓ+1}}{r^{ℓ+2}} - ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \frac{r^{ℓ-1}}{R_{ss}^ℓ}
 }{ \displaystyle
@@ -63,7 +63,7 @@ We need the first and second derivatives of each single-variable function for us
   ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
 }
 \\[2ex]
-\frac{d^2}{dr^2} F(r)
+\frac{d^2}{dr^2} F_ℓ(r)
 &= \frac{\displaystyle
   (ℓ+1)(ℓ+2) \frac{R_\odot^{ℓ+1}}{r^{ℓ+3}} - ℓ(ℓ-1) \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \frac{r^{ℓ-2}}{R_{ss}^ℓ}
 }{ \displaystyle
@@ -78,14 +78,14 @@ We need the first and second derivatives of each single-variable function for us
 ```
 ```math
 \begin{align*}
-\frac{d}{dθ} G(θ) &= - \sin(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)} \\[1ex]
-\frac{d^2}{dθ^2} G(θ) &= \sin^2(θ) ~ \frac{d^2 P_ℓ^m(\cosθ)}{d(\cosθ)^2} - \cos(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)}
+\frac{d}{dθ} G_{ℓm}(θ) &= - \sin(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)} \\[1ex]
+\frac{d^2}{dθ^2} G_{ℓm}(θ) &= \sin^2(θ) ~ \frac{d^2 P_ℓ^m(\cosθ)}{d(\cosθ)^2} - \cos(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)}
 \end{align*}
 ```
 ```math
 \begin{align*}
-\frac{d}{dφ} H(φ) &= m \left[-g_{ℓ m} \sin(mφ) + h_{ℓ m} \cos(mφ)\right] \\[1ex]
-\frac{d^2}{dφ^2} H(φ) &= -m^2 [g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(mφ)] = -m^2 H_ℓ^m(φ)
+\frac{d}{dφ} H_{ℓm}(φ) &= m \left[-g_{ℓ m} \sin(mφ) + h_{ℓ m} \cos(mφ)\right] \\[1ex]
+\frac{d^2}{dφ^2} H_{ℓm}(φ) &= -m^2 [g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(mφ)] = -m^2 H_ℓ^m(φ)
 \end{align*}
 ```
 
@@ -119,34 +119,34 @@ In terms of the SHTC expansion, the Jacobian is
 ```math
 J\mathbf{B}(r, θ, φ)
 = R_\odot \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ \begin{bmatrix}
-    \displaystyle -\frac{d^2F}{dr^2} G H &
-    \displaystyle -\frac{1}{r} \dv{F}{r} \dv{G}{θ} H &
-    \displaystyle -\frac{1}{r\sinθ} \dv{F}{r} G \dv{H}{φ} &
-    \\[1.5ex]
-    \displaystyle -\frac{1}{r} \dv{F}{r} \dv{G}{θ} H &
-    \displaystyle -\frac{1}{r^2} F \frac{d^2G}{dθ^2} H &
-    \displaystyle -\frac{1}{r^2\sinθ} F \dv{G}{θ} \dv{H}{φ} &
-    \\[1.5ex]
-    \displaystyle -\frac{1}{r\sinθ} \dv{F}{r} G \dv{H}{φ} &
-    \displaystyle -\frac{1}{r^2\sinθ} F \dv{G}{θ} \dv{H}{φ} &
-    \displaystyle -\frac{1}{r^2\sin^2θ} F G \frac{d^2H}{dφ^2}
+    \displaystyle -\frac{d^2F_ℓ}{dr^2} G_{ℓm} H_{ℓm} &
+    \displaystyle -\frac{1}{r} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} H_{ℓm} &
+    \displaystyle -\frac{1}{r\sinθ} \dv{F_ℓ}{r} G_{ℓm} \dv{H_{ℓm}}{φ} &
+    \\[2ex]
+    \displaystyle -\frac{1}{r} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} H_{ℓm} &
+    \displaystyle -\frac{1}{r^2} F_ℓ \frac{d^2G_{ℓm}}{dθ^2} H_{ℓm} &
+    \displaystyle -\frac{1}{r^2\sinθ} F_ℓ \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ} &
+    \\[2ex]
+    \displaystyle -\frac{1}{r\sinθ} \dv{F_ℓ}{r} G_{ℓm} \dv{H_{ℓm}}{φ} &
+    \displaystyle -\frac{1}{r^2\sinθ} F_ℓ \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ} &
+    \displaystyle -\frac{1}{r^2\sin^2θ} F_ℓ G_{ℓm} \frac{d^2H_{ℓm}}{dφ^2}
 \end{bmatrix}
 ```
 Factoring out the parts that appear in Φ, we have
 ```math
 J\mathbf{B}(r, θ, φ)
-= \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ - R_\odot F(r) G(θ) H(φ) \begin{bmatrix}
-    \displaystyle \frac{1}{F} \frac{d^2F}{dr^2} &
-    \displaystyle \frac{1}{r} \frac{1}{F G} \dv{F}{r} \dv{G}{θ} &
-    \displaystyle \frac{1}{r\sinθ} \frac{1}{F H} \dv{F}{r} \dv{H}{φ}
-    \\[1ex]
-    \displaystyle \frac{1}{r} \frac{1}{F G} \dv{F}{r} \dv{G}{θ} &
-    \displaystyle \frac{1}{r^2} \frac{1}{G} \frac{d^2G}{dθ^2} &
-    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \dv{G}{θ} \dv{H}{φ}
-    \\[1ex]
-    \displaystyle \frac{1}{r  \sinθ} \frac{1}{F H} \dv{F}{r} \dv{H}{φ} &
-    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G H} \dv{G}{θ} \dv{H}{φ} &
-    \displaystyle \frac{1}{r^2\sin^2θ} \frac{1}{H} \frac{d^2H}{dφ^2}
+= \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ - R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ) \begin{bmatrix}
+    \displaystyle \frac{1}{F_ℓ} \frac{d^2F_ℓ}{dr^2} &
+    \displaystyle \frac{1}{r} \frac{1}{F_ℓ G_{ℓm}} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} &
+    \displaystyle \frac{1}{r\sinθ} \frac{1}{F_ℓ H_{ℓm}} \dv{F_ℓ}{r} \dv{H_{ℓm}}{φ}
+    \\[2ex]
+    \displaystyle \frac{1}{r} \frac{1}{F_ℓ G_{ℓm}} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} &
+    \displaystyle \frac{1}{r^2} \frac{1}{G_{ℓm}} \frac{d^2G_{ℓm}}{dθ^2} &
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G_{ℓm} H_{ℓm}} \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ}
+    \\[2ex]
+    \displaystyle \frac{1}{r  \sinθ} \frac{1}{F_ℓ H_{ℓm}} \dv{F_ℓ}{r} \dv{H_{ℓm}}{φ} &
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G_{ℓm} H_{ℓm}} \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ} &
+    \displaystyle \frac{1}{r^2\sin^2θ} \frac{1}{H_{ℓm}} \frac{d^2H_{ℓm}}{dφ^2}
 \end{bmatrix}
 ```
 Note that since **B** is a gradient field, the Jacobian is symmetric (negative Hessian of Φ).
@@ -169,15 +169,15 @@ The following are the quantities we want to calculate
 - The potential field
 
   ```math
-  Φ = \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ R_\odot F(r) G(θ) H(φ) = \sum_{ℓ,m} \Phi_ℓ^m,
+  Φ = \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ) = \sum_{ℓ,m} \Phi_ℓ^m,
   ```
 
-  where $\Phi_ℓ^m = R_\odot F(r) G(θ) H(φ)$
+  where $\Phi_ℓ^m = R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ)$
 
 - The magnetic field
 
   ```math
-  \mathbf{B} = - \sum_{ℓ,m} R_\odot F(r) G(θ) H(φ) \left(\frac{\hat{\mathbf{r}}}{F} \dv{F}{r} + \frac{\hat{\boldsymbol{θ}}}{r G} \dv{G}{θ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H} \frac{dH}{d\varphi}\right)
+  \mathbf{B} = - \sum_{ℓ,m} R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ) \left(\frac{\hat{\mathbf{r}}}{F_ℓ} \dv{F_ℓ}{r} + \frac{\hat{\boldsymbol{θ}}}{r G_{ℓm}} \dv{G_{ℓm}}{θ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H_{ℓm}} \frac{dH_{ℓm}}{d\varphi}\right)
   ```
 
 - The magnetic field strength, _B_ = |**B**|

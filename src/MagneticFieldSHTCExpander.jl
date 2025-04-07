@@ -125,12 +125,12 @@ function magneticfield(
               -(ℓ+1)/r * r_inverse_scaled - ℓ/r * r_positive_scaled
              ) / surface_to_surface_scale_denom
         F″ = ((
-                (ℓ+1) * (ℓ+2) / r^2 * r_inverse_scaled
-                -
-                ℓ * (ℓ-1) / r^2 * r_positive_scaled
-               )
-               /
-               surface_to_surface_scale_denom)
+               (ℓ+1) * (ℓ+2) / r^2 * r_inverse_scaled
+               -
+               ℓ * (ℓ-1) / r^2 * r_positive_scaled
+              )
+              /
+              surface_to_surface_scale_denom)
 
         for m in m_axes
             # XXX can move this out of the loop?
