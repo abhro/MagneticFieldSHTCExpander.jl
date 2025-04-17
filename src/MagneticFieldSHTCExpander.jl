@@ -70,7 +70,7 @@ function magneticfield(
         r, θ, φ,            # position in spherical coordinates (r is in solar radius)
         g::AbstractMatrix,  # indices = (0:ℓmax, 0:ℓmax)
         h::AbstractMatrix;  # indices = (0:ℓmax, 0:ℓmax)
-        legendre_cache = assoc_legendre_func_table(cos(θ), axes(g)[1][end]),
+        legendre_cache = assoc_legendre_func_table.(cos(θ), axes(g)[1][end]),
     )::BField
 
 
@@ -226,6 +226,7 @@ function collectmagneticfield(
     )
 
     results = Array{BField}(undef, length(rs), length(θs), length(φs))
+    ℓ_axes = axes(g, 1)
 
     for (iθ, θ) in enumerate(θs)
         legendre_cache = assoc_legendre_func_table(cos(θ), ℓ_axes[end])
