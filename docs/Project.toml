@@ -1,10 +1,12 @@
 [deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DocumenterCitations = "daee34ce-89f3-4625-b898-19384cb65244"
 MagneticFieldSHTCExpander = "ab416744-41d4-4ee3-9ac9-e1bb139954b4"
+OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
+
+[sources]
+MagneticFieldSHTCExpander = {path = ".."}
 
 [compat]
 Documenter = "1"
-
-[sources.MagneticFieldSHTCExpander]
-path = ".."
