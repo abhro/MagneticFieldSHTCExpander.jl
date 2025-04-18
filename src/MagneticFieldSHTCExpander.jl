@@ -31,15 +31,15 @@ Note that position information needed for `magneticfield`, ``(r, θ, φ)`` is no
 # Fields
 $(FIELDS)
 """
-Base.@kwdef struct BField
+Base.@kwdef struct BField{PotType,FieldType,JacType}
     "magnetic potential at ``(r, θ, φ)``"
-    Φ::Float64
+    Φ::PotType
 
     "magnetic field at ``(r, θ, φ)``"
-    B::SVector{3,Float64}
+    B::SVector{3,FieldType}
 
     "Jacobian matrix of magnetic field at ``(r, θ, φ)``"
-    jacobianB::SMatrix{3,3,Float64,9}
+    jacobianB::SMatrix{3,3,JacType,9}
 end
 
 function Base.show(io::IO, bfield::BField)
@@ -49,6 +49,9 @@ function Base.show(io::IO, bfield::BField)
     println(io, "  jacobianB = ", bfield.jacobianB, ",")
     print(io, ")")
 end
+
+potential(b::BField) = b.Φ
+field(b::BField) = b.B
 
 """
     magneticfield(r, θ, φ, g, h) -> BField
@@ -68,10 +71,10 @@ Return the magnetic field at ``(r, θ, φ)`` as described by ``g_ℓ^m`` and ``h
 """
 function magneticfield(
         r, θ, φ,            # position in spherical coordinates (r is in solar radius)
-        g::AbstractMatrix,  # indices = (0:ℓmax, 0:ℓmax)
-        h::AbstractMatrix;  # indices = (0:ℓmax, 0:ℓmax)
+        g::AbstractMatrix{T},  # indices = (0:ℓmax, 0:ℓmax)
+        h::AbstractMatrix{T};  # indices = (0:ℓmax, 0:ℓmax)
         legendre_cache = assoc_legendre_func_table.(cos(θ), axes(g)[1][end]),
-    )::BField
+    ) where {T}
 
 
     if axes(g) != axes(h)
@@ -102,11 +105,11 @@ function magneticfield(
     cosmφ_vec = OffsetArray(cos.(ℓ_axes * φ), ℓ_axes)
 
 
-    Φ = 0.0
-    B = zeros(Float64, 3)
-    jacobianB = zeros(Float64, 3, 3)
+    Φ = zero(typeof(r*g[begin]))
+    B = zeros(T, 3)
+    jacobianB = zeros(typeof(g[begin]/r), 3, 3)
 
-    jacobianB_ℓm = zeros(Float64, 3, 3)
+    jacobianB_ℓm = zeros(eltype(jacobianB), 3, 3)
 
     for ℓ in ℓ_axes
         # set up F(r). It actually doesn't depend on m, so set it up
@@ -178,7 +181,7 @@ function magneticfield(
     jacobianB[1,3] = jacobianB[3,1]
     jacobianB[2,3] = jacobianB[3,2]
 
-    return BField(; Φ, B, jacobianB)
+    return BField(Φ, SVector{3}(B), SMatrix{3,3}(jacobianB))
 end
 
 """
@@ -226,10 +229,10 @@ function collectmagneticfield(
     )
 
     results = Array{BField}(undef, length(rs), length(θs), length(φs))
-    ℓ_axes = axes(g, 1)
+    ℓmax = last(axes(g, 1))
 
     for (iθ, θ) in enumerate(θs)
-        legendre_cache = assoc_legendre_func_table(cos(θ), ℓ_axes[end])
+        legendre_cache = assoc_legendre_func_table(cos(θ), ℓmax)
         for (ir, r) in enumerate(rs), (iφ, φ) in enumerate(φs)
             results[ir,iθ,iφ] = magneticfield(r, θ, φ, g, h; legendre_cache)
         end
