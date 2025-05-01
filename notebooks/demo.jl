@@ -1,11 +1,11 @@
 ### A Pluto.jl notebook ###
-# v0.20.6
+# v0.20.8
 
 using Markdown
 using InteractiveUtils
 
 # ╔═╡ 162d6060-1be4-11f0-23bf-8ffa3c0a6091
-import Pkg; Pkg.activate(Base.current_project())
+import Pkg; Pkg.activate(Base.current_project(), io = devnull)
 
 # ╔═╡ 411c6323-3d37-42f5-b62d-7d422138d878
 using DelimitedFiles
@@ -43,35 +43,43 @@ end
 radius_range = [1, 3//2, 2];
 
 # ╔═╡ a9787825-eabd-4642-814d-304e5c0fe436
-theta_range = 1:179 .|> deg2rad;
+theta_range = 1:0.5:179 .|> deg2rad;
 
 # ╔═╡ e5e5254c-82db-4e91-b2c7-d820f922cc27
-phi_range = 1:359 .|> deg2rad;
+phi_range = 1:0.5:359 .|> deg2rad;
 
 # ╔═╡ 83bed572-4fe2-4f9e-9653-5ba3ef7ff2ac
-B = collectmagneticfield(radius_range, theta_range, phi_range, g, h)
+fielddata = collectmagneticfield(radius_range, theta_range, phi_range, g, h)
 
 # ╔═╡ 4bfc6eb7-210d-4252-bcad-a4b49fa8ade3
-magpots = getfield.(B, :Φ)
+magpots = getfield.(fielddata, :Φ)
+
+# ╔═╡ 051c50a9-5536-4c75-b092-8f503d595a99
+md"""
+Plotting slice selects the... r = 1 value?
+"""
 
 # ╔═╡ fc7bf94d-2cca-4787-913a-7c9857f22f39
 plotting_slice = view(magpots,1,:,:)
 
-# ╔═╡ 03019953-b799-415c-a63b-449638640021
-
-
-# ╔═╡ 5cafd6b5-4076-4f86-ade7-32d2a04c55fb
-let fig = Figure()
+# ╔═╡ 4182b8ea-a5a2-429a-bcb3-699917471f02
+function plot_scalar_field_on_sphere(thetas, phis, field)
+	fig = Figure()
 	ax = Axis3(fig[1,1])
 
-	x = [sin(θ) * sin(ϕ) for θ in theta_range, ϕ in phi_range]
-	y = [sin(θ) * cos(ϕ) for θ in theta_range, ϕ in phi_range]
-	z = [cos(θ) for θ in theta_range, ϕ in phi_range]
+	x = [sin(θ) * sin(ϕ) for θ in thetas, ϕ in phis]
+	y = [sin(θ) * cos(ϕ) for θ in thetas, ϕ in phis]
+	z = [cos(θ) for θ in thetas, ϕ in phis]
 
-	surface!(ax, x, y, z, color = ustrip.(u"μT", plotting_slice), shading = NoShading)
+	s = surface!(ax, x, y, z, color = ustrip.(u"μT", field), shading = NoShading)
+
+	cb = Colorbar(fig[1,2], s)
 
 	fig
 end
+
+# ╔═╡ 75b2b51a-57c0-4094-b735-b22374a803e5
+plot_scalar_field_on_sphere(theta_range, phi_range, plotting_slice)
 
 # ╔═╡ Cell order:
 # ╠═162d6060-1be4-11f0-23bf-8ffa3c0a6091
@@ -87,6 +95,7 @@ end
 # ╠═83bed572-4fe2-4f9e-9653-5ba3ef7ff2ac
 # ╠═4bfc6eb7-210d-4252-bcad-a4b49fa8ade3
 # ╠═56fe0d3a-d157-4b08-816d-5ceb08450dcb
+# ╟─051c50a9-5536-4c75-b092-8f503d595a99
 # ╠═fc7bf94d-2cca-4787-913a-7c9857f22f39
-# ╠═03019953-b799-415c-a63b-449638640021
-# ╠═5cafd6b5-4076-4f86-ade7-32d2a04c55fb
+# ╠═75b2b51a-57c0-4094-b735-b22374a803e5
+# ╠═4182b8ea-a5a2-429a-bcb3-699917471f02
