@@ -137,12 +137,12 @@ function magneticfield(
 
         for m in m_axes
             # XXX can move this out of the loop?
-            G   = plm[ℓ,m]
-            G′  = -sinθ * dplm[ℓ,m]
+            G  = plm[ℓ,m]
+            G′ = -sinθ * dplm[ℓ,m]
             G″ = - sinθ^2 * d²plm[ℓ,m] - cosθ * dplm[ℓ,m]
 
-            H   = g[ℓ,m] * cosmφ_vec[m] + h[ℓ,m]  * sinmφ_vec[m]
-            H′  = m * (-g[ℓ,m] * sinmφ_vec[m] + h[ℓ,m] * cosmφ_vec[m])
+            H  = g[ℓ,m] * cosmφ_vec[m] + h[ℓ,m]  * sinmφ_vec[m]
+            H′ = m * (-g[ℓ,m] * sinmφ_vec[m] + h[ℓ,m] * cosmφ_vec[m])
             H″ = -m^2 * H
 
             # Φ = ∑_(ℓ, m) R₀ F G H
@@ -156,7 +156,6 @@ function magneticfield(
             setlowerjacobian!(jacobianB_ℓm, Φ_ℓm, F, F′, F″, G, G′, G″, H, H′, H″, r, sinθ)
 
             jacobianB .+= jacobianB_ℓm
-
         end
     end
 
@@ -200,104 +199,6 @@ function setlowerjacobian!(JB, Φ_ℓm, F, F′, F″, G, G′, G″, H, H′, H
     return JB
 end
 
-"""
-    collectmagneticfield(rs, θs, φs, g, h) -> Array{BField,3}
-
-Evaluate `magneticfield` for multiple position vectors. Returns a 3d array
-containing `BField` information, where each index corresponds to the index of
-the `rs`, `θs` and `φs` vectors.
-
-### Arguments
-- `rs`: vector of radial distances form the origin (spherical coordinates)
-- `θs`: vector of polar angles (ISO/physics spherical coordinates)
-- `φs`: vector of azimuthal angles (ISO/physics spherical coordinates)
-- `g`, `h`: arrays (matrices) containing the spherical harmonic transform
-            coefficients (SHTC). `g[ℓ,m]` should yield ``g_ℓ^m`` and
-            `h[ℓ,m]` should yield ``h_ℓ^m``
-
-### Examples
-
-```julia
-bgrid = collectmagneticfield(rs, θs, φs, g, h)
-r = rs[i]
-θ = θs[j]
-φ = φs[k]
-magneticfield(r, θ, φ, g, h) == bgrid[i,j,k]
-```
-
-# See also
-[`magneticfield`](@ref)
-"""
-function collectmagneticfield(
-        rs::AbstractVector, θs::AbstractVector, φs::AbstractVector,
-        g::AbstractMatrix, h::AbstractMatrix,
-    )
-
-    results = Array{BField}(undef, length(rs), length(θs), length(φs))
-    ℓmax = last(axes(g, 1))
-
-    for (iθ, θ) in enumerate(θs)
-        legendre_cache = assoc_legendre_func_table(cos(θ), ℓmax)
-        for (ir, r) in enumerate(rs), (iφ, φ) in enumerate(φs)
-            results[ir,iθ,iφ] = magneticfield(r, θ, φ, g, h; legendre_cache)
-        end
-    end
-
-    return results
-end
-
-# only loop over θ and φ
-function collectmagneticfield(
-        r, θs::AbstractVector, φs::AbstractVector,
-        g::AbstractMatrix, h::AbstractMatrix,
-    )
-
-    results = Array{BField}(undef, length(θs), length(φs))
-    ℓmax = last(axes(g, 1))
-
-    for (iθ, θ) in enumerate(θs)
-        legendre_cache = assoc_legendre_func_table(cos(θ), ℓmax)
-        for (iφ, φ) in enumerate(φs)
-            results[ir,iθ,iφ] = magneticfield(r, θ, φ, g, h; legendre_cache)
-        end
-    end
-
-    return results
-end
-
-# only loop over φ
-"""
-Essentially `[magneticfield(r, θ, φ) for φ in φs]`
-"""
-function collectmagneticfield(
-        r, θ, φs::AbstractVector,
-        g::AbstractMatrix, h::AbstractMatrix,
-    )
-
-    results = Vector{BField}(undef, length(φs))
-    collectmagneticfield!(results, r, θ, φs, g, h)
-
-    return results
-end
-function collectmagneticfield!(
-        results::AbstractVector,
-        r, θ, φs::AbstractVector,
-        g::AbstractMatrix, h::AbstractMatrix;
-    )
-
-    length(results) == length(φs) || throw(DimensionMismatch())
-    ℓmax = last(axes(g, 1))
-
-    legendre_cache = assoc_legendre_func_table(cos(θ), ℓmax)
-
-    for (i, φ) in enumerate(φs)
-        results[i] = magneticfield(r, θ, φ, g, h; legendre_cache)
-    end
-
-    return results
-end
-
-
 Plm′(x, l, m; kwargs...) = derivativefd(x -> Plm(x, l, m; kwargs...), x)
 Plm″(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
 
@@ -336,4 +237,5 @@ function checkbounds(r, θ, φ)
     end
 end
 
+include("multipoints.jl")
 end
