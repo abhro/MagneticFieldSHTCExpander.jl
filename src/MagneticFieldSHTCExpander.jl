@@ -109,7 +109,7 @@ function magneticfield(
     B = zeros(T, 3)
     jacobianB = zeros(typeof(g[begin]/r), 3, 3)
 
-    jacobianB_ℓm = zeros(eltype(jacobianB), 3, 3)
+    jacobianB_ℓm = LowerTriangular(zeros(eltype(jacobianB), 3, 3))
 
     for ℓ in ℓ_axes
         # set up F(r). It actually doesn't depend on m, so set it up
@@ -153,23 +153,7 @@ function magneticfield(
             # B = -∑_(ℓ,m) R₀ F G H (r̂/F * F′ + θ̂/(r G) * G′ + φ̂/(r sinθ H) * H′)
             @. B += - Φ_ℓm .* [F′/F, G′/(r * G), H′/(r * sinθ * H)]
 
-            # I am not even going to attempt writing down the math form of the
-            # Jacobian here. See Physical-theory.md.
-            # we're only setting the lower triangular part then copying it after
-            # the loop. (take advantage of symmetry)
-            jacobianB_ℓm .= -Φ_ℓm # wasted on the upper triangular part, but whatever
-
-            # first column
-            jacobianB_ℓm[1,1] *= F″ / F
-            jacobianB_ℓm[2,1] *= F′ * G′ / (r * F * G)
-            jacobianB_ℓm[3,1] *= F′ * H′ / (r * sinθ * F * H)
-
-            # second column
-            jacobianB_ℓm[2,2] *= G″ / (r^2 * G)
-            jacobianB_ℓm[3,2] *= G′ * H′ / (r^2 * sinθ * G * H)
-
-            # third column
-            jacobianB_ℓm[3,3] *= H″ / (r^2 * sinθ^2 * H)
+            setlowerjacobian!(jacobianB_ℓm, Φ_ℓm, F, F′, F″, G, G′, G″, H, H′, H″, r, sinθ)
 
             jacobianB .+= jacobianB_ℓm
 
@@ -191,8 +175,29 @@ Call `magneticfield` using a `Vector` instead of specifying coordinates.
 
 `rvec` should be a 3-vector containing the ``(r, θ, φ)`` components.
 """
-function magneticfield(rvec, g, h)
-    return magneticfield(rvec..., g, h)
+magneticfield(rvec, g, h) = magneticfield(rvec..., g, h)
+
+function setlowerjacobian!(JB, Φ_ℓm, F, F′, F″, G, G′, G″, H, H′, H″, r, sinθ)
+    # I am not even going to attempt writing down the math form of the
+    # Jacobian here. See Physical-theory.md.
+    # we're only setting the lower triangular part then copying it after
+    # the loop. (take advantage of symmetry)
+
+    JB .= -Φ_ℓm # wasted on the upper triangular part, but whatever
+
+    # first column
+    JB[1,1] *= F″ / F
+    JB[2,1] *= F′ * G′ / (r * F * G)
+    JB[3,1] *= F′ * H′ / (r * sinθ * F * H)
+
+    # second column
+    JB[2,2] *= G″ / (r^2 * G)
+    JB[3,2] *= G′ * H′ / (r^2 * sinθ * G * H)
+
+    # third column
+    JB[3,3] *= H″ / (r^2 * sinθ^2 * H)
+
+    return JB
 end
 
 """
