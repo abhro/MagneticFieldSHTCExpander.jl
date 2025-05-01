@@ -246,6 +246,58 @@ function collectmagneticfield(
     return results
 end
 
+# only loop over θ and φ
+function collectmagneticfield(
+        r, θs::AbstractVector, φs::AbstractVector,
+        g::AbstractMatrix, h::AbstractMatrix,
+    )
+
+    results = Array{BField}(undef, length(θs), length(φs))
+    ℓmax = last(axes(g, 1))
+
+    for (iθ, θ) in enumerate(θs)
+        legendre_cache = assoc_legendre_func_table(cos(θ), ℓmax)
+        for (iφ, φ) in enumerate(φs)
+            results[ir,iθ,iφ] = magneticfield(r, θ, φ, g, h; legendre_cache)
+        end
+    end
+
+    return results
+end
+
+# only loop over φ
+"""
+Essentially `[magneticfield(r, θ, φ) for φ in φs]`
+"""
+function collectmagneticfield(
+        r, θ, φs::AbstractVector,
+        g::AbstractMatrix, h::AbstractMatrix,
+    )
+
+    results = Vector{BField}(undef, length(φs))
+    collectmagneticfield!(results, r, θ, φs, g, h)
+
+    return results
+end
+function collectmagneticfield!(
+        results::AbstractVector,
+        r, θ, φs::AbstractVector,
+        g::AbstractMatrix, h::AbstractMatrix;
+    )
+
+    length(results) == length(φs) || throw(DimensionMismatch())
+    ℓmax = last(axes(g, 1))
+
+    legendre_cache = assoc_legendre_func_table(cos(θ), ℓmax)
+
+    for (i, φ) in enumerate(φs)
+        results[i] = magneticfield(r, θ, φ, g, h; legendre_cache)
+    end
+
+    return results
+end
+
+
 Plm′(x, l, m; kwargs...) = derivativefd(x -> Plm(x, l, m; kwargs...), x)
 Plm″(x, l, m; kwargs...) = derivativefd(x -> Plm′(x, l, m; kwargs...), x)
 
