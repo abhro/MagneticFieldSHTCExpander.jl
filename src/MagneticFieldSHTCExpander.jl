@@ -12,7 +12,7 @@ using ThreadSafeDicts: ThreadSafeDict
 
 using StaticArrays: SVector, SMatrix
 
-using DocStringExtensions: TYPEDEF, FIELDS
+using DocStringExtensions: TYPEDEF, TYPEDFIELDS
 
 const R₀ = 1 # sun's radius in solar radius
 const Rₛₛ = 2.5 # source surface in solar radius (PFSS)
@@ -28,8 +28,8 @@ $(TYPEDEF)
 Composite data type containing information about the local magnetic field vector.
 Note that position information needed for `magneticfield`, ``(r, θ, φ)`` is not stored.
 
-# Fields
-$(FIELDS)
+### Fields
+$(TYPEDFIELDS)
 """
 Base.@kwdef struct BField{PotType,FieldType,JacType}
     "magnetic potential at ``(r, θ, φ)``"
@@ -58,7 +58,7 @@ field(b::BField) = b.B
 
 Return the magnetic field at ``(r, θ, φ)`` as described by ``g_ℓ^m`` and ``h_ℓ^m``.
 
-# Arguments
+### Arguments
 - `r`: radial distance form the origin (spherical coordinates)
 - `θ`: polar angle (ISO/physics spherical coordinates)
 - `φ`: azimuthal angle (ISO/physics spherical coordinates)
@@ -66,7 +66,7 @@ Return the magnetic field at ``(r, θ, φ)`` as described by ``g_ℓ^m`` and ``h
             coefficients (SHTC). `g[ℓ,m]` should yield ``g_ℓ^m`` and
             `h[ℓ,m]` should yield ``h_ℓ^m``
 
-# See also
+### See also
 [`collectmagneticfield`](@ref)
 """
 function magneticfield(
@@ -207,7 +207,7 @@ Evaluate `magneticfield` for multiple position vectors. Returns a 3d array
 containing `BField` information, where each index corresponds to the index of
 the `rs`, `θs` and `φs` vectors.
 
-# Arguments
+### Arguments
 - `rs`: vector of radial distances form the origin (spherical coordinates)
 - `θs`: vector of polar angles (ISO/physics spherical coordinates)
 - `φs`: vector of azimuthal angles (ISO/physics spherical coordinates)
@@ -215,7 +215,7 @@ the `rs`, `θs` and `φs` vectors.
             coefficients (SHTC). `g[ℓ,m]` should yield ``g_ℓ^m`` and
             `h[ℓ,m]` should yield ``h_ℓ^m``
 
-# Examples
+### Examples
 
 ```julia
 bgrid = collectmagneticfield(rs, θs, φs, g, h)
