@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Physical theory · MagneticFieldSHTCExpander</title><meta name="title" content="Physical theory · MagneticFieldSHTCExpander"/><meta property="og:title" content="Physical theory · MagneticFieldSHTCExpander"/><meta property="twitter:title" content="Physical theory · MagneticFieldSHTCExpander"/><meta name="description" content="Documentation for MagneticFieldSHTCExpander."/><meta property="og:description" content="Documentation for MagneticFieldSHTCExpander."/><meta property="twitter:description" content="Documentation for MagneticFieldSHTCExpander."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">MagneticFieldSHTCExpander</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Introduction</a></li><li class="is-active"><a class="tocitem" href>Physical theory</a><ul class="internal"><li><a class="tocitem" href="#Derivatives-of-potential-field"><span>Derivatives of potential field</span></a></li><li><a class="tocitem" href="#Desired-quantities"><span>Desired quantities</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Physical theory</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Physical theory</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/abhro/MagneticFieldSHTCExpander.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/abhro/MagneticFieldSHTCExpander.jl/blob/main/docs/src/physical-theory.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Potential-field"><a class="docs-heading-anchor" href="#Potential-field">Potential field</a><a id="Potential-field-1"></a><a class="docs-heading-anchor-permalink" href="#Potential-field" title="Permalink"></a></h1><p>The magnetic field is based on the <a href="#AN1969">Altschuler and Newkirk (1969)</a> and <a href="#ZZR2019">Zhang <em>et al.</em> (2019)</a> model, where a potential field is defined</p><p class="math-container">\[\Phi(r, θ, φ)
+= R_\odot
+  \sum_{ℓ=0}^\infty
+    \sum_{m=0}^ℓ
+      P_ℓ^m(\cos θ)
+      \left[g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(m φ)\right]
+      \frac{
+        \displaystyle\left(\frac{R_\odot}{r}\right)^{ℓ+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
+      }{
+        \displaystyle ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+      }\]</p><p>and the magnetic field,</p><p class="math-container">\[\mathbf{B}(r, θ, φ) = B_r(r, θ, φ) \hat{\mathbf{r}} + B_θ(r, θ, φ) \hat{\boldsymbol{θ}} + B_φ(r, θ, φ) \hat{\boldsymbol{φ}},\]</p><p>is the negative gradient of the potential field:</p><p class="math-container">\[\mathbf{B}(r, θ, φ)
+= - \grad\Phi(r, θ, φ)
+= - \pdv{\Phi}{r} \hat{\mathbf{r}}
+  - \frac{1}{r} \pdv{\Phi}{θ} \hat{\boldsymbol{θ}}
+  - \frac{1}{r \sin θ} \pdv{\Phi}{φ} \hat{\boldsymbol{φ}}.\]</p><p>Note, here <span>$P_ℓ^m$</span> is the associated Legendre Polynomial under quasi-Schmidt normalization.</p><p>For notational convenience, we define the potential function as a product solution, where each function is defined as</p><p class="math-container">\[\begin{align*}
+F_ℓ(r) &amp;= \frac{
+    \displaystyle \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
+}{
+    \displaystyle ℓ + 1 + ℓ\left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+} \\
+G_{ℓm}(θ) &amp;= P_ℓ^m(\cos θ) \\[1ex]
+H_{ℓm}(φ) &amp;= g_{ℓm} \cos(mφ) + h_{ℓ m} \sin(mφ)
+\end{align*}\]</p><p>Note that <em>F</em>, <em>G</em>, and <em>H</em> all implicitly depend on <em>ℓ</em> and <em>m</em> (only <em>ℓ</em> in <em>F</em>&#39;s case).</p><p>So, the potential function is instead</p><p class="math-container">\[\Phi(r, θ, φ) = R_\odot \sum_{ℓ=0}^\infty F_ℓ(r) \sum_{m=0}^ℓ G_{ℓm}(θ) H_{ℓm}(φ)\]</p><h2 id="Derivatives-of-potential-field"><a class="docs-heading-anchor" href="#Derivatives-of-potential-field">Derivatives of potential field</a><a id="Derivatives-of-potential-field-1"></a><a class="docs-heading-anchor-permalink" href="#Derivatives-of-potential-field" title="Permalink"></a></h2><p>We need the first and second derivatives of each single-variable function for use in the Jacobian of the magnetic field.</p><p class="math-container">\[\begin{align*}
+\dv{}{r} F_ℓ(r)
+&amp;= \frac{ \displaystyle
+  -(ℓ+1) \frac{R_\odot^{ℓ+1}}{r^{ℓ+2}} - ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \frac{r^{ℓ-1}}{R_{ss}^ℓ}
+}{ \displaystyle
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+} \\[1ex]
+&amp;= \frac{ \displaystyle
+  -\frac{ℓ+1}{r} \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \frac{ℓ}{r} \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
+}{ \displaystyle
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+}
+\\[2ex]
+\frac{d^2}{dr^2} F_ℓ(r)
+&amp;= \frac{\displaystyle
+  (ℓ+1)(ℓ+2) \frac{R_\odot^{ℓ+1}}{r^{ℓ+3}} - ℓ(ℓ-1) \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \frac{r^{ℓ-2}}{R_{ss}^ℓ}
+}{ \displaystyle
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+} \\[1ex]
+&amp;= \frac{\displaystyle
+  \frac{(ℓ+1)(ℓ+2)}{r^2} \left(\frac{R_\odot}{r}\right)^{ℓ+1} - \frac{ℓ(ℓ-1)}{r^2} \left(\frac{R_\odot}{R_{ss}}\right)^{ℓ+1} \left(\frac{r}{R_{ss}}\right)^ℓ
+}{ \displaystyle
+  ℓ + 1 + ℓ \left(\frac{R_\odot}{R_{ss}}\right)^{2ℓ+1}
+}
+\end{align*}\]</p><p class="math-container">\[\begin{align*}
+\frac{d}{dθ} G_{ℓm}(θ) &amp;= - \sin(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)} \\[1ex]
+\frac{d^2}{dθ^2} G_{ℓm}(θ) &amp;= \sin^2(θ) ~ \frac{d^2 P_ℓ^m(\cosθ)}{d(\cosθ)^2} - \cos(θ) ~ \frac{dP_ℓ^m(\cosθ)}{d(\cosθ)}
+\end{align*}\]</p><p class="math-container">\[\begin{align*}
+\frac{d}{dφ} H_{ℓm}(φ) &amp;= m \left[-g_{ℓ m} \sin(mφ) + h_{ℓ m} \cos(mφ)\right] \\[1ex]
+\frac{d^2}{dφ^2} H_{ℓm}(φ) &amp;= -m^2 [g_{ℓ m} \cos(mφ) + h_{ℓ m} \sin(mφ)] = -m^2 H_ℓ^m(φ)
+\end{align*}\]</p><h3 id="Jacobian-of-magnetic-field"><a class="docs-heading-anchor" href="#Jacobian-of-magnetic-field">Jacobian of magnetic field</a><a id="Jacobian-of-magnetic-field-1"></a><a class="docs-heading-anchor-permalink" href="#Jacobian-of-magnetic-field" title="Permalink"></a></h3><p>The Jacobian for an <span>$\mathbb{R}^3$</span> is a 3×3 matrix. For <strong>B</strong>, it is</p><p class="math-container">\[\begin{align*}
+J\mathbf{B}(r, θ, φ)
+&amp;= \begin{bmatrix}
+    \displaystyle -\frac{∂^2 \Phi}{∂ r^2}                        &amp;
+    \displaystyle -\frac{1}{r}\frac{∂^2 \Phi}{∂ θ \, ∂ r} &amp;
+    \displaystyle -\frac{1}{r \sin θ} \frac{∂^2 \Phi}{∂ φ \, ∂ r} \\[0.5ex]
+    \displaystyle -\frac{1}{r} \frac{∂^2 \Phi}{∂ r \, ∂ θ} &amp;
+    \displaystyle -\frac{1}{r^2} \frac{∂^2 \Phi}{∂ θ^2}           &amp;
+    \displaystyle -\frac{1}{r^2 \sinθ} \frac{∂^2 \Phi}{∂φ \, ∂θ}  \\[0.5ex]
+    \displaystyle -\frac{1}{r \sin θ} \frac{∂^2 \Phi}{∂ r \, ∂ φ} &amp;
+    \displaystyle -\frac{1}{r^2 \sin θ} \frac{∂^2 \Phi}{∂θ \, ∂φ} &amp;
+    \displaystyle -\frac{1}{r^2 \sin^2θ} \frac{∂^2 \Phi}{∂ φ^2}
+\end{bmatrix}
+\\[2ex]
+&amp;= \begin{bmatrix}
+    \longleftarrow &amp; \grad^\TT B_r &amp; \longrightarrow \\[0.5ex]
+    \longleftarrow &amp; \grad^\TT B_θ &amp; \longrightarrow \\[0.5ex]
+    \longleftarrow &amp; \grad^\TT B_φ &amp; \longrightarrow
+\end{bmatrix}
+\end{align*}\]</p><p>In terms of the SHTC expansion, the Jacobian is</p><p class="math-container">\[J\mathbf{B}(r, θ, φ)
+= R_\odot \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ \begin{bmatrix}
+    \displaystyle -\frac{d^2F_ℓ}{dr^2} G_{ℓm} H_{ℓm} &amp;
+    \displaystyle -\frac{1}{r} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} H_{ℓm} &amp;
+    \displaystyle -\frac{1}{r\sinθ} \dv{F_ℓ}{r} G_{ℓm} \dv{H_{ℓm}}{φ} &amp;
+    \\[2ex]
+    \displaystyle -\frac{1}{r} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} H_{ℓm} &amp;
+    \displaystyle -\frac{1}{r^2} F_ℓ \frac{d^2G_{ℓm}}{dθ^2} H_{ℓm} &amp;
+    \displaystyle -\frac{1}{r^2\sinθ} F_ℓ \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ} &amp;
+    \\[2ex]
+    \displaystyle -\frac{1}{r\sinθ} \dv{F_ℓ}{r} G_{ℓm} \dv{H_{ℓm}}{φ} &amp;
+    \displaystyle -\frac{1}{r^2\sinθ} F_ℓ \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ} &amp;
+    \displaystyle -\frac{1}{r^2\sin^2θ} F_ℓ G_{ℓm} \frac{d^2H_{ℓm}}{dφ^2}
+\end{bmatrix}\]</p><p>Factoring out the parts that appear in Φ, we have</p><p class="math-container">\[J\mathbf{B}(r, θ, φ)
+= \sum_{ℓ=0}^\infty \sum_{m = 0}^ℓ - R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ) \begin{bmatrix}
+    \displaystyle \frac{1}{F_ℓ} \frac{d^2F_ℓ}{dr^2} &amp;
+    \displaystyle \frac{1}{r} \frac{1}{F_ℓ G_{ℓm}} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} &amp;
+    \displaystyle \frac{1}{r\sinθ} \frac{1}{F_ℓ H_{ℓm}} \dv{F_ℓ}{r} \dv{H_{ℓm}}{φ}
+    \\[2ex]
+    \displaystyle \frac{1}{r} \frac{1}{F_ℓ G_{ℓm}} \dv{F_ℓ}{r} \dv{G_{ℓm}}{θ} &amp;
+    \displaystyle \frac{1}{r^2} \frac{1}{G_{ℓm}} \frac{d^2G_{ℓm}}{dθ^2} &amp;
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G_{ℓm} H_{ℓm}} \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ}
+    \\[2ex]
+    \displaystyle \frac{1}{r  \sinθ} \frac{1}{F_ℓ H_{ℓm}} \dv{F_ℓ}{r} \dv{H_{ℓm}}{φ} &amp;
+    \displaystyle \frac{1}{r^2\sinθ} \frac{1}{G_{ℓm} H_{ℓm}} \dv{G_{ℓm}}{θ} \dv{H_{ℓm}}{φ} &amp;
+    \displaystyle \frac{1}{r^2\sin^2θ} \frac{1}{H_{ℓm}} \frac{d^2H_{ℓm}}{dφ^2}
+\end{bmatrix}\]</p><p>Note that since <strong>B</strong> is a gradient field, the Jacobian is symmetric (negative Hessian of Φ).</p><h3 id="Gradient-of-the-field-strength"><a class="docs-heading-anchor" href="#Gradient-of-the-field-strength">Gradient of the field strength</a><a id="Gradient-of-the-field-strength-1"></a><a class="docs-heading-anchor-permalink" href="#Gradient-of-the-field-strength" title="Permalink"></a></h3><p><strong>∇</strong><em>B</em> = <strong>∇</strong>|<strong>B</strong>| can be determined from the Jacobian of <strong>B</strong>. What follows is a proof using index notation:</p><p class="math-container">\[\pdv{B}{x_j}
+= \pdv{}{x_j} \left(B_i B_i\right)^{1/2}
+= \frac{1}{2} \left(B_i B_i\right)^{-1/2} \left(2 B_i \pdv{B_i}{x_j}\right)
+= \frac{B_i \pdv{B_i}{x_j}}{\left(B_k B_k\right)^{1/2}}
+= \frac{B_i}{B} \pdv{B_i}{x_j}\]</p><p>which implies <span>$∇B = \hat{\mathbf{b}} ⋅ J\mathbf{B}$</span></p><h2 id="Desired-quantities"><a class="docs-heading-anchor" href="#Desired-quantities">Desired quantities</a><a id="Desired-quantities-1"></a><a class="docs-heading-anchor-permalink" href="#Desired-quantities" title="Permalink"></a></h2><p>The following are the quantities we want to calculate</p><ul><li><p>The potential field</p><p class="math-container">\[Φ = \sum_{ℓ=0}^\infty \sum_{m=0}^ℓ R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ) = \sum_{ℓ,m} \Phi_ℓ^m,\]</p><p>where <span>$\Phi_ℓ^m = R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ)$</span></p></li><li><p>The magnetic field</p><p class="math-container">\[\mathbf{B} = - \sum_{ℓ,m} R_\odot F_ℓ(r) G_{ℓm}(θ) H_{ℓm}(φ) \left(\frac{\hat{\mathbf{r}}}{F_ℓ} \dv{F_ℓ}{r} + \frac{\hat{\boldsymbol{θ}}}{r G_{ℓm}} \dv{G_{ℓm}}{θ} + \frac{\hat{\boldsymbol{φ}}}{r \sin(θ) H_{ℓm}} \frac{dH_{ℓm}}{d\varphi}\right)\]</p></li><li><p>The magnetic field strength, <em>B</em> = |<strong>B</strong>|</p></li><li><p>The gradient of the magnetic field strength, <strong>∇</strong><em>B</em></p><p class="math-container">\[\begin{align*}
+\grad B
+&amp;= \grad \sqrt{B_r^2 + B_θ^2 + B_φ^2} \\[1ex]
+&amp;= \frac{1}{B} \begin{bmatrix}
+      \longleftarrow &amp; \dpdv{\mathbf{B}^\TT}{r}                     &amp; \longrightarrow \\
+      \longleftarrow &amp; \dfrac{1}{r} \dpdv{\mathbf{B}^\TT}{θ}        &amp; \longrightarrow \\
+      \longleftarrow &amp; \dfrac{1}{r \sin θ} \dpdv{\mathbf{B}^\TT}{φ} &amp; \longrightarrow
+  \end{bmatrix} \mathbf{B}
+\\[1ex]
+&amp;= \frac{1}{B} \begin{bmatrix}
+      \uparrow   &amp; \uparrow   &amp; \uparrow  \\
+      \grad B_r  &amp; \grad B_θ  &amp; \grad B_φ \\
+      \downarrow &amp; \downarrow &amp; \downarrow
+  \end{bmatrix} \mathbf{B} \\[1ex]
+&amp;= \frac{1}{B} (J\mathbf{B})^\TT \mathbf{B}
+\end{align*}\]</p></li></ul><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><div class="citation canonical"><ul><li><div id="AN1969">Altschuler, M. D. and Newkirk, G. (1969). <a href="https://link.springer.com/10.1007/BF00145734"><em>Magnetic fields and the structure of the solar corona: I: Methods of calculating coronal fields</em></a>. <a href="https://doi.org/10.1007/BF00145734">Solar Physics <strong>9</strong>, 131–149</a>.</div></li><li><div id="ZZR2019">Zhang, M.; Zhao, L. and Rassoul, H. K. (2019). <a href="https://iopscience.iop.org/article/10.1088/1742-6596/1225/1/012010"><em>Stochastic Propagation of Solar Energetic Particles in Coronal and Interplanetary Magnetic Fields</em></a>. <a href="https://doi.org/10.1088/1742-6596/1225/1/012010">Journal of Physics: Conference Series <strong>1225</strong>, 012010</a>.</div></li></ul></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Introduction</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Wednesday 1 October 2025 22:16">Wednesday 1 October 2025</span>. Using Julia version 1.11.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
