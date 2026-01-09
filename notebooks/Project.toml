@@ -13,3 +13,15 @@ WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [sources]
 MagneticFieldSHTCExpander = {path = ".."}
+
+[compat]
+CairoMakie = "0.15.8"
+DelimitedFiles = "1.9.1"
+GLMakie = "0.13.8"
+GSL = "1.0.1"
+OffsetArrays = "1.17.0"
+Pluto = "0.20.21"
+PlutoUI = "0.7.77"
+Unitful = "1.27.0"
+UnitfulAstro = "1.2.2"
+WGLMakie = "0.13.8"
