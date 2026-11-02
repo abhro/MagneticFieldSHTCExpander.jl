@@ -14,10 +14,10 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 ThreadSafeDicts = "4239201d-c60e-5e0a-9702-85d713665ba7"
 
 [compat]
-DocStringExtensions = "0.9"
+DocStringExtensions = "0.9, 0.10"
 ForwardDiff = "0.10, 1"
 LegendrePolynomials = "0.4"
-LinearAlgebra = "1"
+LinearAlgebra = "<0.0.1, 1"
 Memoization = "0.2"
 OffsetArrays = "1"
 StaticArrays = "1"
